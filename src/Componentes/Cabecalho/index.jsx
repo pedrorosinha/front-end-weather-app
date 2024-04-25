@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 const CabecalhoEstilizado = styled.header`
-position: absolute;
-width: 100%;
-height: 70px;
-top: 0px;
-background: #141ABA;
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    top: 0px;
+    background: #141ABA;
 `
 const Logo = styled.img`
     position: absolute;
@@ -14,7 +14,7 @@ const Logo = styled.img`
     margin-left: 120px;
     margin-top: 18px;
     margin-bottom: 18px;
-    margin-right: 1244px
+    margin-right: 1244px;
 `
 
 const Cabecalho = () => {
