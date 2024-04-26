@@ -31,7 +31,6 @@ const Inicial = styled.div`
   line-height: 20px;
   letter-spacing: 0.02em;
   text-align: center;
-  text-align: center;
   color: #141ABA;
 `;
 
