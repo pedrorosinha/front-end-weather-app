@@ -1,17 +1,14 @@
-import { createGlobalStyle } from "styled-components";
-
-import TTSupermolotBold from "./Fontes/supermolot-otf/TT-Supermolot-Bold.ttf" 
-import TTSupermolotRegular from "./Fontes/supermolot-otf/TT-Supermolot-Regular.ttf" 
+import { createGlobalStyle } from "styled-components"; 
 
 const GlobalStyles = createGlobalStyle`
     @font-face {
         font-family: 'TTSupermolot-Regular';
-        src: local('TTSupermolot-Regular') local('TT Supermolot Regular') url(${TTSupermolotRegular});
+        src: url('/src/Componentes/EstiloGlobal/Fontes/supermolot-ttf/TT-Supermolot-Regular.ttf') format('ttf');
     }
 
     @font-face {
         font-family: 'TTSupermolot-Bold';
-        src: local('TTSupermolot-Bold') local('TT Supermolot Bold') url(${TTSupermolotBold});
+        src: url('/src/Componentes/EstiloGlobal/Fontes/supermolot-ttf/TT-Supermolot-Bold.ttf');
     }
   body, html {
     margin: 0;

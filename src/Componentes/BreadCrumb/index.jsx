@@ -25,9 +25,9 @@ const Inicial = styled.div`
   width: 50px;
   height: 20px;
   gap: 0;
-  font-family: 'TT-Supermolot-Bold';
+  font-family: 'TTSupermolot-Bold';
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 20px;
   letter-spacing: 0.02em;
   text-align: center;

@@ -14,7 +14,6 @@ const Container = styled.div`
 
 const Texto = styled.span`
     font-family: 'TTSupermolot-Bold';
-    font-style: normal;
     font-weight: 400;
     font-size: 36px;
     line-height: 44.46px;
