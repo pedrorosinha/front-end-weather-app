@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const CabecalhoEstilizado = styled.header`
     position: absolute;
-    width: 100%;
+    width: 1440px;
     height: 70px;
     top: 0px;
     background: #141ABA;
