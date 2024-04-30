@@ -1,6 +1,6 @@
-import { SearchOutlined } from '@ant-design/icons'
 import { Input } from "antd";
 import styled from "styled-components";
+import lupa from './lupa/lupa.png';
 
 const InputContainer = styled.div`
     display: flex;
@@ -42,19 +42,27 @@ const Subtitulo = styled.div`
 `
 
 const SearchBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 13px;
-  width: 40px;
-  height: 40px;
-  border-right: 1px solid #414ABA;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 2px solid #414ABA;
 `;
 
-const SearchIcon = styled(SearchOutlined)`
-  width: 14px;
-  height: 14px;
-`;
+const Lupa = styled.div`
+    width: 17.49px;
+    height: 17.49px;
+    cursor: pointer;
+    &::before {
+    content: url(${lupa});
+  }
+`
 
 const CustomInput = styled(Input)`
   &.ant-input {
@@ -66,6 +74,7 @@ const CustomInput = styled(Input)`
     font-weight: 400;
     line-height: 22.14px;
     text-align: left;
+    padding-right: 40px;
   }
 
   &:not(:focus) {
@@ -75,16 +84,20 @@ const CustomInput = styled(Input)`
 
 const InputComponent = () => {
     return (
-      <div>
-        <InputContainer>
-            <Titulo>Buscar a cidade</Titulo>
-            <Subtitulo>Cidade*</Subtitulo>
-            <CustomInput size='large' placeholder='Busque por uma cidade' suffix={<SearchBox>
-                <SearchIcon />
-            </SearchBox>}></CustomInput>
-        </InputContainer>
-      </div>
+        <div>
+            <InputContainer>
+                <Titulo>Buscar a cidade</Titulo>
+                <Subtitulo>Cidade*</Subtitulo>
+                <CustomInput size='large'
+                    placeholder='Busque por uma cidade'
+                    suffix={<SearchBox>
+                        <Lupa />
+                    </SearchBox>}
+                >
+                </CustomInput>
+            </InputContainer>
+        </div>
     );
-  };
+};
 
 export default InputComponent;
