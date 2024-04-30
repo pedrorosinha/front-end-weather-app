@@ -79,7 +79,7 @@ const InputComponent = () => {
         <InputContainer>
             <Titulo>Buscar a cidade</Titulo>
             <Subtitulo>Cidade*</Subtitulo>
-            <CustomInput size='large' placeholder='Digite algo' suffix={<SearchBox>
+            <CustomInput size='large' placeholder='Busque por uma cidade' suffix={<SearchBox>
                 <SearchIcon />
             </SearchBox>}></CustomInput>
         </InputContainer>
