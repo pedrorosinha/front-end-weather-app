@@ -87,14 +87,14 @@ const InputTemperatura = () => {
                     <Subtitulo>Mínima*</Subtitulo>
                     <StyledInputNumber
                         size='large'
-                        placeholder='Mínima'
+                        placeholder='Mín'
                     />
                 </InputBox>
                 <InputBox>
                     <Subtitulo>Máxima*</Subtitulo>
                     <StyledInputNumber
                         size='large'
-                        placeholder='Máxima'
+                        placeholder='Máx'
                     />
                 </InputBox>
             </InputsRow>
