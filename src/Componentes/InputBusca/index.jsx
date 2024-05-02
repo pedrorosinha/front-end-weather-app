@@ -67,7 +67,7 @@ const StyledSearchIcon = styled(SearchOutlined)`
     padding: 4px; 
 `;
 
-const InputComponent = () => {
+const InputBusca = () => {
 
     return (
         <div>
@@ -84,4 +84,4 @@ const InputComponent = () => {
     );
 };
 
-export default InputComponent;
+export default InputBusca;

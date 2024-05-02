@@ -1,7 +1,8 @@
 import Breadcrumb from "./Componentes/BreadCrumb"
 import Cabecalho from "./Componentes/Cabecalho"
 import GlobalStyles from "./Componentes/EstiloGlobal"
-import InputComponent from "./Componentes/Input"
+import InputBusca from "./Componentes/InputBusca"
+import InputTemperatura from "./Componentes/InputTemperatura"
 import CadastroMeteorologico from "./Componentes/Titulo"
 
 const App = () => (
@@ -10,7 +11,8 @@ const App = () => (
           <Cabecalho />
           <Breadcrumb />
           <CadastroMeteorologico />
-          <InputComponent />
+          <InputBusca />
+          <InputTemperatura />
     </>
   )
 
