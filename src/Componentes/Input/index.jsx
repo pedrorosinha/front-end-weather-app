@@ -1,6 +1,6 @@
 import { Input } from "antd";
 import styled from "styled-components";
-import lupa from './lupa/lupa.png';
+import { SearchOutlined } from '@ant-design/icons'
 
 const InputContainer = styled.div`
     display: flex;
@@ -41,30 +41,7 @@ const Subtitulo = styled.div`
     flex-grow: 0;
 `
 
-const SearchBox = styled.div`
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 50%;
-    right: 12px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-left: 2px solid #414ABA;
-`;
-
-const Lupa = styled.div`
-    width: 17.49px;
-    height: 17.49px;
-    cursor: pointer;
-    &::before {
-    content: url(${lupa});
-  }
-`
-
-const CustomInput = styled(Input)`
+const StyledInput = styled(Input)`
   &.ant-input {
     width: 100%;
     height: 40px;
@@ -82,19 +59,26 @@ const CustomInput = styled(Input)`
   }
 `
 
+const StyledSearchIcon = styled(SearchOutlined)`
+    font-size: 18px;
+    color: #414ABA;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 4px; 
+`;
+
 const InputComponent = () => {
+
     return (
         <div>
             <InputContainer>
                 <Titulo>Buscar a cidade</Titulo>
                 <Subtitulo>Cidade*</Subtitulo>
-                <CustomInput size='large'
+                <StyledInput size='large'
                     placeholder='Busque por uma cidade'
-                    suffix={<SearchBox>
-                        <Lupa />
-                    </SearchBox>}
+                    suffix={<StyledSearchIcon />}
                 >
-                </CustomInput>
+                </StyledInput>
             </InputContainer>
         </div>
     );
