@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Input, InputNumber } from "antd";
+import { InputNumber } from "antd";
 
 const Container = styled.div`
     display: flex;
@@ -30,20 +30,6 @@ const Titulo = styled.div`
     color: #292929;
 `;
 
-const CustomInput = styled(Input)`
-    width: 107px;
-    height: 40px;
-    background: #FFFFFF;
-    border: 2px solid #414ABA;
-    border-radius: 6px;
-    padding: 8px 12px;
-    input {
-        font-family: 'TTSupermolot-Regular';
-        font-size: 16px;
-        color: #292929;
-    }
-`;
-
 const CustomInputNumber = styled(InputNumber)`
     width: 90px;
     height: 40px;
@@ -63,15 +49,15 @@ const InputDadosMetereologicos = () => {
         <Container>
             <InputContainer>
                 <Titulo>Precipitação*</Titulo>
-                <CustomInput placeholder="Digite a precipitação" />
+                <CustomInputNumber placeholder="Digite aqui" />
             </InputContainer>
             <InputContainer>
                 <Titulo>Umidade*</Titulo>
-                <CustomInputNumber placeholder="Digite a umidade" />
+                <CustomInputNumber placeholder="Digite aqui" />
             </InputContainer>
             <InputContainer>
                 <Titulo>Velocidade do vento*</Titulo>
-                <CustomInput placeholder="Digite a velocidade" />
+                <CustomInputNumber placeholder="Digite aqui" />
             </InputContainer>
         </Container>
     );
