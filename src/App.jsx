@@ -2,6 +2,7 @@ import Breadcrumb from "./Componentes/BreadCrumb"
 import Cabecalho from "./Componentes/Cabecalho"
 import GlobalStyles from "./Componentes/EstiloGlobal"
 import InputBusca from "./Componentes/InputBusca"
+import InputDadosMetereologicos from "./Componentes/InputDadosMetereologicos"
 import InputData from "./Componentes/InputData"
 import InputTags from "./Componentes/InputTags"
 import InputTemperatura from "./Componentes/InputTemperatura"
@@ -19,6 +20,7 @@ const App = () => (
           <InputTempo />
           <InputData />
           <InputTags />
+          <InputDadosMetereologicos />
     </>
   )
 
