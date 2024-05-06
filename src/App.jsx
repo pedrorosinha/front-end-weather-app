@@ -1,3 +1,4 @@
+import Botoes from "./Componentes/Botoes"
 import Breadcrumb from "./Componentes/BreadCrumb"
 import Cabecalho from "./Componentes/Cabecalho"
 import GlobalStyles from "./Componentes/EstiloGlobal"
@@ -21,6 +22,7 @@ const App = () => (
           <InputData />
           <InputTags />
           <InputDadosMetereologicos />
+          <Botoes />
     </>
   )
 
