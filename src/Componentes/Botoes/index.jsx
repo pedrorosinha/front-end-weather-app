@@ -88,8 +88,8 @@ const BotaoCancelar = ({ onClick }) => {
 const Botoes = ({ onSave, onCancel }) => {
     return (
         <ButtonContainer>
-            <BotaoSave onClick={onSave} />
             <BotaoCancelar onClick={onCancel} />
+            <BotaoSave onClick={onSave} />
         </ButtonContainer>
     );
 };
