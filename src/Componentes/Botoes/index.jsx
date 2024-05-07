@@ -30,6 +30,15 @@ const StyledSaveButton = styled(Button)`
   flex: none;
   order: 0;
   flex-grow: 0;
+  span {
+    font-family: 'TTSupermolot-Bold';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFF;
+  }
 `;
 
 const StyledCancelButton = styled(Button)`
@@ -49,6 +58,15 @@ const StyledCancelButton = styled(Button)`
   flex: none;
   order: 0;
   flex-grow: 0;
+  span {
+    font-family: 'TTSupermolot-Bold';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #414aba;
+  }
 `;
 
 const BotaoSave = ({ onClick }) => {
