@@ -21,6 +21,7 @@ const StyledSaveButton = styled(Button)`
   border: 1px solid #414aba;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
   border-radius: 2px;
+  
   span {
     font-family: 'TTSupermolot-Bold';
     font-style: normal;
@@ -30,12 +31,15 @@ const StyledSaveButton = styled(Button)`
     text-align: center;
     color: #FFFF;
   }
+  &:hover {
+    background-color: #14B6EF !important;
+  }
 `;
 
 const StyledCancelButton = styled(Button)`
   width: 201px;
   height: 40px;
-  background: #ffffff;
+  background: #ffff;
   border: 1px solid #414aba;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.016);
   border-radius: 2px;
@@ -47,6 +51,13 @@ const StyledCancelButton = styled(Button)`
     line-height: 22px;
     text-align: center;
     color: #414aba;
+  }
+  &:hover {
+    background-color: #FFFF !important;
+    border: 2px solid #14B6EF !important;
+    span {
+      color: #14B6EF !important;
+    }
   }
 `;
 
