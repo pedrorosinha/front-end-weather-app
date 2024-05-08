@@ -1,6 +1,19 @@
 import React from "react";
 import { Modal } from "antd";
+import {CloseOutlined} from '@ant-design/icons'
 import styled from "styled-components";
+
+const CustomModal = styled(Modal)`
+  .ant-modal-content {
+    background-color: #db0d33;
+  }
+`;
+
+const CustomCloseIcon = styled(CloseOutlined)`
+  color: #fafafa;
+  font-size: 20px; 
+  cursor: pointer;
+`;
 
 const ErrorMessage = styled.div`
   display: flex;
@@ -10,7 +23,6 @@ const ErrorMessage = styled.div`
   gap: 24px;
   width: 755px;
   height: 178px;
-  background: #db0d33;
   border-radius: 8px;
 `;
 
@@ -27,13 +39,13 @@ const ErrorMessageText = styled.div`
 
 const CenarioErro = ({ isOpen, onClose }) => {
   return (
-    <Modal visible={isOpen} onCancel={onClose} footer={null} width={755}>
+    <CustomModal visible={isOpen} onCancel={onClose} closeIcon={<CustomCloseIcon />} footer={null} width={755} centered maskClosable={false}>
       <ErrorMessage>
         <ErrorMessageText>
-          Por favor, preencha todos os campos obrigatórios antes de salvar.
+          Por favor, preencha todos os campos <br /> obrigatórios antes de salvar.
         </ErrorMessageText>
       </ErrorMessage>
-    </Modal>
+    </CustomModal>
   );
 };
 
