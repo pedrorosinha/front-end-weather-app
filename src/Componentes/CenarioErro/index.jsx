@@ -27,6 +27,8 @@ const ErrorMessage = styled.div`
 `;
 
 const ErrorMessageText = styled.div`
+  width: 675px;
+  height: 142px;
   font-family: "TTSupermolot-Regular";
   font-style: normal;
   font-weight: 400;
