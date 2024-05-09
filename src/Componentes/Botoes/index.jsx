@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import CenarioErro from "../CenarioErro";
+import CenarioSucesso from "../CenarioSucesso";
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -19,72 +20,65 @@ const StyledSaveButton = styled(Button)`
   height: 40px;
   background: #414aba;
   border: 1px solid #414aba;
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
   border-radius: 2px;
+  color: #ffffff;
+  font-family: 'TTSupermolot-Bold';
+  font-size: 18px;
   
-  span {
-    font-family: 'TTSupermolot-Bold';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    color: #FFFF;
-  }
   &:hover {
     background-color: #14B6EF !important;
+    color: #ffffff !important;
   }
 `;
 
 const StyledCancelButton = styled(Button)`
   width: 201px;
   height: 40px;
-  background: #ffff;
+  background: #ffffff;
   border: 1px solid #414aba;
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.016);
   border-radius: 2px;
-  span {
-    font-family: 'TTSupermolot-Bold';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    color: #414aba;
-  }
+  color: #414aba;
+  font-family: 'TTSupermolot-Bold';
+  font-size: 18px;
+  
   &:hover {
-    background-color: #FFFF !important;
+    background-color: #FFFFFF !important;
     border: 2px solid #14B6EF !important;
-    span {
-      color: #14B6EF !important;
-    }
+    color: #14B6EF !important;
   }
 `;
 
-const Botoes = ({ onSave, onCancel, validateFields }) => {
-    const [erroVisivel, setErroVisivel] = useState(false);
+const Botoes = ({ onSave, onCancel, isFormComplete }) => {
+  const [erroVisivel, setErroVisivel] = React.useState(false);
+  const [sucessoVisivel, setSucessoVisivel] = React.useState(false);
 
-    const handleClickSalvar = () => {
-        if (validateFields && typeof validateFields === "function") {
-            onSave();
-        } else {
-            setErroVisivel(true);
-        }
-    };
+  const handleClickSalvar = () => {
+    if (isFormComplete) {
+      onSave();
+      setSucessoVisivel(true);
+    } else {
+      setErroVisivel(true);
+    }
+  };
 
-    const handleCloseErro = () => {
-        setErroVisivel(false);
-    };
+  const handleCloseErro = () => {
+    setErroVisivel(false);
+  };
 
-    return (
-        <>
-            <ButtonContainer>
-                <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
-                <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
-            </ButtonContainer>
-            <CenarioErro isOpen={erroVisivel} onClose={handleCloseErro} />
-        </>
-    );
+  const handleCloseSucesso = () => {
+    setSucessoVisivel(false);
+  };
+
+  return (
+    <>
+      <ButtonContainer>
+        <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
+        <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
+      </ButtonContainer>
+      <CenarioErro isOpen={erroVisivel} onClose={handleCloseErro} />
+      <CenarioSucesso isOpen={sucessoVisivel} onClose={handleCloseSucesso} />
+    </>
+  );
 };
 
 export default Botoes;

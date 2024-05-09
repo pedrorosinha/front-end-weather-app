@@ -41,7 +41,7 @@ const ErrorMessageText = styled.div`
 
 const CenarioErro = ({ isOpen, onClose }) => {
   return (
-    <CustomModal visible={isOpen} onCancel={onClose} closeIcon={<CustomCloseIcon />} footer={null} width={755} centered maskClosable={false}>
+    <CustomModal open={isOpen} onCancel={onClose} closeIcon={<CustomCloseIcon />} footer={null} width={755} centered maskClosable={false}>
       <ErrorMessage>
         <ErrorMessageText>
           Por favor, preencha todos os campos <br /> obrigatórios antes de salvar.
