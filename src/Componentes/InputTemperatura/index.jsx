@@ -75,18 +75,18 @@ const InputTemperatura = () => {
 
     const handleMinimaChange = (value) => {
         setTemperaturaMinima(value);
-        validateFields(); // Validar campos sempre que houver alteração na temperatura mínima
+        validateFields();
     };
 
     const handleMaximaChange = (value) => {
         setTemperaturaMaxima(value);
-        validateFields(); // Validar campos sempre que houver alteração na temperatura máxima
+        validateFields(); 
     };
 
     const validateFields = () => {
-        const minValido = temperaturaMinima !== null; // Verifica se a temperatura mínima foi preenchida
-        const maxValido = temperaturaMaxima !== null; // Verifica se a temperatura máxima foi preenchida
-        setTemperaturasValidas(minValido && maxValido); // Define se ambos os campos são válidos
+        const minValido = temperaturaMinima !== null;
+        const maxValido = temperaturaMaxima !== null; 
+        setTemperaturasValidas(minValido && maxValido); 
     };
 
     return (
