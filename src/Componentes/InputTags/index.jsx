@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import CenarioSucesso from "../CenarioSucesso";
 
 const Container = styled.div`
   position: absolute;
@@ -67,20 +66,10 @@ const TurnoButton = styled.button`
 
 const InputTags = () => {
   const [activeTurno, setActiveTurno] = React.useState(null);
-  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
 
   const handleTurnoClick = (turno) => {
-    setActiveTurno(turno === activeTurno ? null : turno);
-
-    if (isFormComplete()) {
-      setShowSuccessModal(true);
-    } else {
-      setShowSuccessModal(false);
-    }
-  };
-
-  const isFormComplete = () => {
-    return activeTurno !== null;
+    // Alterna entre selecionar/deselecionar o turno
+    setActiveTurno((prevTurno) => (prevTurno === turno ? null : turno));
   };
 
   return (
@@ -107,7 +96,6 @@ const InputTags = () => {
           Noite
         </TurnoButton>
       </ButtonGroup>
-      <CenarioSucesso isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
     </Container>
   );
 };
