@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DatePicker } from "antd";
 import styled from "styled-components";
 import locale from "antd/es/date-picker/locale/pt_BR";
@@ -62,15 +62,33 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 const InputData = () => {
-    return (
-        <Container>
-            <Titulo>Selecione a data</Titulo>
-            <DateContainer>
-                <Subtitulo>Data*</Subtitulo>
-                <StyledDatePicker placeholder="Selecione a data" format='DD/MM/YYYY' locale={locale}/>
-            </DateContainer>
-        </Container>
-    );
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [dateValid, setDateValid] = useState(false);
+
+  const handleDateChange = (date, dateString) => {
+    setSelectedDate(dateString);
+    validateField(dateString);
+  };
+
+  const validateField = (dateString) => {
+    setDateValid(dateString !== null && dateString !== undefined && dateString !== '');
+  };
+
+  return (
+    <Container>
+      <Titulo>Selecione a data</Titulo>
+      <DateContainer>
+        <Subtitulo>Data*</Subtitulo>
+        <StyledDatePicker
+          placeholder="Selecione a data"
+          format="DD/MM/YYYY"
+          locale={locale}
+          onChange={handleDateChange}
+        />
+        {!dateValid && <div style={{ color: 'red' }}>Selecione uma data.</div>}
+      </DateContainer>
+    </Container>
+  );
 };
 
 export default InputData;

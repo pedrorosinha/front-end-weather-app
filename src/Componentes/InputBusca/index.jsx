@@ -1,6 +1,7 @@
+import React, { useState } from "react";
 import { Input } from "antd";
 import styled from "styled-components";
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons';
 
 const InputContainer = styled.div`
     display: flex;
@@ -13,7 +14,7 @@ const InputContainer = styled.div`
     height: 125px;
     left: 120px;
     top: 242px;
-`
+`;
 
 const Titulo = styled.div`
     width: 226px;
@@ -23,10 +24,7 @@ const Titulo = styled.div`
     font-weight: 400;
     line-height: 39px;
     color: #292929;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-`
+`;
 
 const Subtitulo = styled.div`
     width: 62px;
@@ -36,10 +34,7 @@ const Subtitulo = styled.div`
     font-weight: 400;
     line-height: 22.14px;
     color: #292929;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-`
+`;
 
 const StyledInput = styled(Input)`
   &.ant-input {
@@ -57,7 +52,7 @@ const StyledInput = styled(Input)`
   &:not(:focus) {
     border: 2px solid #414ABA;  
   }
-`
+`;
 
 const StyledSearchIcon = styled(SearchOutlined)`
     font-size: 18px;
@@ -68,19 +63,29 @@ const StyledSearchIcon = styled(SearchOutlined)`
 `;
 
 const InputBusca = () => {
+    const [cidade, setCidade] = useState("");
+    const [cidadeValida, setCidadeValida] = useState(false);
+
+    const handleInputChange = (e) => {
+        const { value } = e.target;
+        setCidade(value);
+        setCidadeValida(value.trim() !== ""); 
+    };
 
     return (
-        <div>
-            <InputContainer>
-                <Titulo>Buscar a cidade</Titulo>
-                <Subtitulo>Cidade*</Subtitulo>
-                <StyledInput size='large'
-                    placeholder='Busque por uma cidade'
-                    suffix={<StyledSearchIcon />}
-                >
-                </StyledInput>
-            </InputContainer>
-        </div>
+        <InputContainer>
+            <Titulo>Buscar a cidade</Titulo>
+            <Subtitulo>Cidade*</Subtitulo>
+            <StyledInput
+                size='large'
+                placeholder='Busque por uma cidade'
+                suffix={<StyledSearchIcon />}
+                value={cidade}
+                onChange={handleInputChange}
+                className={cidadeValida ? "valid" : "invalid"}
+            />
+            {!cidadeValida && <div style={{ color: 'red' }}>Informe a cidade</div>}
+        </InputContainer>
     );
 };
 

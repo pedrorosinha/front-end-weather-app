@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -65,11 +65,16 @@ const TurnoButton = styled.button`
 `;
 
 const InputTags = () => {
-  const [activeTurno, setActiveTurno] = React.useState(null);
+  const [activeTurno, setActiveTurno] = useState(null);
+  const [turnoValido, setTurnoValido] = useState(false);
 
   const handleTurnoClick = (turno) => {
     // Alterna entre selecionar/deselecionar o turno
     setActiveTurno((prevTurno) => (prevTurno === turno ? null : turno));
+  };
+
+  const validateField = () => {
+    setTurnoValido(activeTurno !== null);
   };
 
   return (
@@ -79,23 +84,35 @@ const InputTags = () => {
       <ButtonGroup>
         <TurnoButton
           isactive={activeTurno === "Manhã" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Manhã")}
+          onClick={() => {
+            handleTurnoClick("Manhã");
+            validateField();
+          }}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
           isactive={activeTurno === "Tarde" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Tarde")}
+          onClick={() => {
+            handleTurnoClick("Tarde");
+            validateField();
+          }}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
           isactive={activeTurno === "Noite" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Noite")}
+          onClick={() => {
+            handleTurnoClick("Noite");
+            validateField();
+          }}
         >
           Noite
         </TurnoButton>
       </ButtonGroup>
+      {!turnoValido && (
+        <div style={{ color: 'red' }}>Por favor, selecione um turno.</div>
+      )}
     </Container>
   );
 };

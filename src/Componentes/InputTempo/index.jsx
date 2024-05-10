@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Select } from "antd";
 
@@ -77,18 +77,37 @@ const CustomOption = styled(Option)`
 `;
 
 const InputTempo = () => {
+  const [clima, setClima] = useState(null);
+  const [climaValido, setClimaValido] = useState(false);
+
+  const handleSelectChange = (value) => {
+    setClima(value);
+    validateField(value);
+  };
+
+  const validateField = (value) => {
+    setClimaValido(value !== null && value !== "Selecione");
+  };
+
   return (
     <Container>
       <Titulo>Informe o clima</Titulo>
       <SelectContainer>
         <Subtitulo>Clima*</Subtitulo>
-        <StyledSelect defaultValue="Selecione">
+        <StyledSelect
+          defaultValue="Selecione"
+          onChange={handleSelectChange}
+          value={clima}
+        >
           <CustomOption value="chuvoso">Chuvoso</CustomOption>
           <CustomOption value="ensolarado">Ensolarado</CustomOption>
           <CustomOption value="garoando">Garoando</CustomOption>
           <CustomOption value="nevando">Nevando</CustomOption>
           <CustomOption value="nublado">Nublado</CustomOption>
         </StyledSelect>
+        {!climaValido && (
+          <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
+        )}
       </SelectContainer>
     </Container>
   );
