@@ -45,12 +45,12 @@ const TurnoButton = styled.button`
   height: 40px;
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
-  font-weight: ${({ isActive }) => (isActive ? 'bold' : '400')};
+  font-weight: ${({ isactive }) => (isactive ? 'bold' : '400')};
   line-height: 22px;
   text-align: center;
-  color: ${({ isActive }) => (isActive ? '#221F52' : '#292929')};
-  background-color: ${({ isActive }) => (isActive ? '#BEE7F9' : '#FFFFFF')};
-  border: ${({ isActive }) => (isActive ? '1px solid #221F52' : '2px solid #414ABA')};
+  color: ${({ isactive }) => (isactive ? '#221F52' : '#292929')};
+  background-color: ${({ isactive }) => (isactive ? '#BEE7F9' : '#FFFFFF')};
+  border: ${({ isactive }) => (isactive ? '1px solid #221F52' : '2px solid #414ABA')};
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -59,9 +59,9 @@ const TurnoButton = styled.button`
   margin-right: 8px;
 
   &:hover {
-    background-color: ${({ isActive }) => (isActive ? '#BEE7F9' : 'rgba(190, 231, 249, 0.8)')};
-    color: ${({ isActive }) => (isActive ? '#221F52' : '#292929')};
-    border: ${({ isActive }) => (isActive ? '1px solid #221F52' : '2px solid #414ABA')};
+    background-color: ${({ isactive }) => (isactive ? '#BEE7F9' : 'rgba(190, 231, 249, 0.8)')};
+    color: ${({ isactive }) => (isactive ? '#221F52' : '#292929')};
+    border: ${({ isactive }) => (isactive ? '1px solid #221F52' : '2px solid #414ABA')};
   }
 `;
 
@@ -70,21 +70,16 @@ const InputTags = () => {
   const [showSuccessModal, setShowSuccessModal] = React.useState(false);
 
   const handleTurnoClick = (turno) => {
-    // Atualizar o estado do turno selecionado
     setActiveTurno(turno === activeTurno ? null : turno);
 
-    // Verificar se todos os campos estão preenchidos
     if (isFormComplete()) {
-      // Mostrar o modal de sucesso
       setShowSuccessModal(true);
     } else {
-      // Esconder o modal de sucesso se o formulário não estiver completo
       setShowSuccessModal(false);
     }
   };
 
   const isFormComplete = () => {
-    // Verificar se o turno foi selecionado
     return activeTurno !== null;
   };
 
@@ -94,19 +89,19 @@ const InputTags = () => {
       <Subtitulo>Turno*</Subtitulo>
       <ButtonGroup>
         <TurnoButton
-          isActive={activeTurno === "Manhã"}
+          isactive={activeTurno === "Manhã" ? "true" : "false"}
           onClick={() => handleTurnoClick("Manhã")}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
-          isActive={activeTurno === "Tarde"}
+          isactive={activeTurno === "Tarde" ? "true" : "false"}
           onClick={() => handleTurnoClick("Tarde")}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
-          isActive={activeTurno === "Noite"}
+          isactive={activeTurno === "Noite" ? "true" : "false"}
           onClick={() => handleTurnoClick("Noite")}
         >
           Noite
