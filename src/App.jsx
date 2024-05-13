@@ -21,7 +21,7 @@ const App = () => (
           <InputTempo />
           <InputData />
           <InputTags />
-          <InputDadosMetereologicos />
+          <InputDadosMetereologicos />  
           <Botoes />
     </>
   )

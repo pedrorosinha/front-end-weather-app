@@ -30,13 +30,15 @@ const Titulo = styled.div`
     color: #292929;
 `;
 
+// Estilização do InputNumber com base na validade
 const CustomInputNumber = styled(InputNumber)`
     width: 90px;
     height: 40px;
     background: #FFFFFF;
-    border: 2px solid ${({ isvalid }) => (isvalid ? "#414ABA" : "#FF0000")};
+    border: 2px solid ${({ isValid }) => (isValid ? "#414ABA" : "#FF0000")};
     border-radius: 6px;
     padding: 8px 12px;
+
     input {
         font-family: 'TTSupermolot-Regular';
         font-size: 16px;
@@ -49,15 +51,7 @@ const InputDadosMetereologicos = () => {
     const [umidade, setUmidade] = useState(null);
     const [velocidadeVento, setVelocidadeVento] = useState(null);
 
-    const validatePrecipitacao = (value) => {
-        return value !== null && value !== undefined && value !== "";
-    };
-
-    const validateUmidade = (value) => {
-        return value !== null && value !== undefined && value !== "";
-    };
-
-    const validateVelocidadeVento = (value) => {
+    const validateField = (value) => {
         return value !== null && value !== undefined && value !== "";
     };
 
@@ -67,7 +61,7 @@ const InputDadosMetereologicos = () => {
                 <Titulo>Precipitação*</Titulo>
                 <CustomInputNumber
                     placeholder="Digite aqui"
-                    isvalid={validatePrecipitacao(precipitacao) ? 'true' : 'false'}
+                    isValid={validateField(precipitacao)}
                     onChange={setPrecipitacao}
                 />
             </InputContainer>
@@ -75,7 +69,7 @@ const InputDadosMetereologicos = () => {
                 <Titulo>Umidade*</Titulo>
                 <CustomInputNumber
                     placeholder="Digite aqui"
-                    isvalid={validateUmidade(umidade) ? 'true' : 'false'}
+                    isValid={validateField(umidade)}
                     onChange={setUmidade}
                 />
             </InputContainer>
@@ -83,7 +77,7 @@ const InputDadosMetereologicos = () => {
                 <Titulo>Velocidade do vento*</Titulo>
                 <CustomInputNumber
                     placeholder="Digite aqui"
-                    isvalid={validateVelocidadeVento(velocidadeVento) ? 'true' : 'false'}
+                    isValid={validateField(velocidadeVento)}
                     onChange={setVelocidadeVento}
                 />
             </InputContainer>
