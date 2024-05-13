@@ -51,7 +51,7 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
 
   return (
     <CustomModal
-      open={isOpen} // Usar 'open' ao invés de 'visible'
+      open={isOpen} 
       onClose={onClose}
       closeIcon={<CustomCloseIcon />}
       aria-labelledby="modal-title"
