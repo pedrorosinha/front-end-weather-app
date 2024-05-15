@@ -1,8 +1,6 @@
+import { Button } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { Button } from "antd";
-import CenarioErro from "../CenarioErro";
-import CenarioSucesso from "../CenarioSucesso";
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -47,26 +45,10 @@ const StyledCancelButton = styled(Button)`
     color: #14B6EF !important;
   }
 `;
-
-const Botoes = ({ onSave, onCancel, isFormComplete }) => {
-  const [erroVisivel, setErroVisivel] = React.useState(false);
-  const [sucessoVisivel, setSucessoVisivel] = React.useState(false);
-
+const Botoes = ({ onSave, onCancel, dadosInput }) => {
   const handleClickSalvar = () => {
-    if (isFormComplete) {
-      onSave();
-      setSucessoVisivel(true);
-    } else {
-      setErroVisivel(true);
-    }
-  };
-
-  const handleCloseErro = () => {
-    setErroVisivel(false);
-  };
-
-  const handleCloseSucesso = () => {
-    setSucessoVisivel(false);
+    console.log(onSave(dadosInput));
+    onSave(dadosInput);
   };
 
   return (
@@ -75,8 +57,6 @@ const Botoes = ({ onSave, onCancel, isFormComplete }) => {
         <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
         <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
       </ButtonContainer>
-      <CenarioErro isOpen={erroVisivel} onClose={handleCloseErro} />
-      <CenarioSucesso isOpen={sucessoVisivel} onClose={handleCloseSucesso} />
     </>
   );
 };

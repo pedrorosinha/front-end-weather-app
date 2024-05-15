@@ -51,26 +51,18 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
 
   return (
     <CustomModal
-      open={isOpen} 
-      onClose={onClose}
+      visible={isOpen} 
+      onCancel={onClose}
       closeIcon={<CustomCloseIcon />}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
-      fullWidth
-      maxWidth="sm"
+      centered
     >
       <SuccessModalContent>
         {isFormComplete ? (
-          <>
-            <SuccessMessage>
-              Dados salvos com sucesso!
-            </SuccessMessage>
-            <Botoes
-              onCancel={onClose}
-              onSave={onClose}
-              isFormComplete={isFormComplete}
-            />
-          </>
+          <SuccessMessage>
+            Dados salvos com sucesso!
+          </SuccessMessage>
         ) : (
           <div>Formulário não completo</div>
         )}

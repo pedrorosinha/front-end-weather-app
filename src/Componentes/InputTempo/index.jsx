@@ -76,17 +76,12 @@ const CustomOption = styled(Option)`
   }
 `;
 
-const InputTempo = () => {
+const InputTempo = ({ onInputChange }) => {
   const [clima, setClima] = useState(null);
-  const [climaValido, setClimaValido] = useState(false);
 
   const handleSelectChange = (value) => {
     setClima(value);
-    validateField(value);
-  };
-
-  const validateField = (value) => {
-    setClimaValido(value !== null && value !== "Selecione");
+    onInputChange(value);
   };
 
   return (
@@ -105,7 +100,7 @@ const InputTempo = () => {
           <CustomOption value="nevando">Nevando</CustomOption>
           <CustomOption value="nublado">Nublado</CustomOption>
         </StyledSelect>
-        {!climaValido && (
+        {clima === null && (
           <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
         )}
       </SelectContainer>

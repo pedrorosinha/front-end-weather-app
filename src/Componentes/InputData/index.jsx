@@ -63,15 +63,13 @@ const StyledDatePicker = styled(DatePicker)`
 
 const InputData = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [dateValid, setDateValid] = useState(false);
 
   const handleDateChange = (date, dateString) => {
     setSelectedDate(dateString);
-    validateField(dateString);
   };
 
-  const validateField = (dateString) => {
-    setDateValid(dateString !== null && dateString !== undefined && dateString !== '');
+  const validateField = () => {
+    return selectedDate !== null && selectedDate !== undefined && selectedDate !== '';
   };
 
   return (
@@ -85,7 +83,7 @@ const InputData = () => {
           locale={locale}
           onChange={handleDateChange}
         />
-        {!dateValid && <div style={{ color: 'red' }}>Selecione uma data.</div>}
+        {!validateField() && <div style={{ color: 'red' }}>Selecione uma data.</div>}
       </DateContainer>
     </Container>
   );

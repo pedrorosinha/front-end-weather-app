@@ -68,25 +68,18 @@ const InputBox = styled.div`
     gap: 4px;
 `;
 
-const InputTemperatura = () => {
+const InputTemperatura = ({ onInputChange }) => {
     const [temperaturaMinima, setTemperaturaMinima] = useState(null);
     const [temperaturaMaxima, setTemperaturaMaxima] = useState(null);
-    const [temperaturasValidas, setTemperaturasValidas] = useState(false);
 
     const handleMinimaChange = (value) => {
         setTemperaturaMinima(value);
-        validateFields();
+        onInputChange({ temperaturaMinima: value, temperaturaMaxima });
     };
 
     const handleMaximaChange = (value) => {
         setTemperaturaMaxima(value);
-        validateFields(); 
-    };
-
-    const validateFields = () => {
-        const minValido = temperaturaMinima !== null;
-        const maxValido = temperaturaMaxima !== null; 
-        setTemperaturasValidas(minValido && maxValido); 
+        onInputChange({ temperaturaMinima, temperaturaMaxima: value });
     };
 
     return (
@@ -112,7 +105,6 @@ const InputTemperatura = () => {
                     />
                 </InputBox>
             </InputsRow>
-            {!temperaturasValidas && <div style={{ color: 'red' }}>Informe a temperatura míima <br></br>Informe a temperatura míima</div>}
         </InputContainer>
     );
 };

@@ -1,29 +1,115 @@
-import Botoes from "./Componentes/Botoes"
-import Breadcrumb from "./Componentes/BreadCrumb"
-import Cabecalho from "./Componentes/Cabecalho"
-import GlobalStyles from "./Componentes/EstiloGlobal"
-import InputBusca from "./Componentes/InputBusca"
-import InputDadosMetereologicos from "./Componentes/InputDadosMetereologicos"
-import InputData from "./Componentes/InputData"
-import InputTags from "./Componentes/InputTags"
-import InputTemperatura from "./Componentes/InputTemperatura"
-import InputTempo from "./Componentes/InputTempo"
-import CadastroMeteorologico from "./Componentes/Titulo"
+import React, { useState } from "react";
+import GlobalStyles from "./Componentes/EstiloGlobal";
+import Cabecalho from "./Componentes/Cabecalho";
+import Breadcrumb from "./Componentes/BreadCrumb";
+import InputBusca from "./Componentes/InputBusca";
+import InputTemperatura from "./Componentes/InputTemperatura";
+import InputTempo from "./Componentes/InputTempo";
+import InputTags from "./Componentes/InputTags";
+import InputData from "./Componentes/InputData";
+import InputDadosMetereologicos from "./Componentes/InputDadosMetereologicos";
+import Botoes from "./Componentes/Botoes";
+import CenarioSucesso from "./Componentes/CenarioSucesso";
+import Titulo from "./Componentes/Titulo";
+import ModalErro from './Componentes/CenarioErro';
 
-const App = () => (
+const App = () => {
+  const [temperatura, setTemperatura] = useState("");
+  const [showModalSucesso, setModalSucesso] = useState(false);
+  const [showModalErro, setModalErro] = useState(false);
+  const [selectedTurno, setSelectedTurno] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedClima, setSelectedClima] = useState(null);
+  const [selectedBusca, setSelectedBusca] = useState(null);
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState({
+    precipitacao: null,
+    umidade: null,
+    velocidadeVento: null
+  });
+
+  const handleTemperaturaChange = (value) => {
+    setTemperatura(value);
+  };
+
+  const handleTurnoChange = (turno) => {
+    setSelectedTurno(turno);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleClimaChange = (clima) => {
+    setSelectedClima(clima);
+  };
+
+  const handleBuscaChange = (busca) => {
+    setSelectedBusca(busca);
+  };
+
+  const handlePrecipitacaoChange = (value) => {
+    setDadosMeteorologicos({ ...dadosMeteorologicos, precipitacao: value });
+    if (onInputChange && onInputChange.precipitacao) {
+      onInputChange.precipitacao(value);
+    }
+  };
+
+  const handleUmidadeChange = (value) => {
+    setDadosMeteorologicos({ ...dadosMeteorologicos, umidade: value });
+    if (onInputChange && onInputChange.umidade) {
+      onInputChange.umidade(value);
+    }
+  };
+
+  const handleVelocidadeVentoChange = (value) => {
+    setDadosMeteorologicos({ ...dadosMeteorologicos, velocidadeVento: value });
+    if (onInputChange && onInputChange.velocidadeVento) {
+      onInputChange.velocidadeVento(value);
+    }
+  };
+
+  const validateFields = () => {
+    return temperatura !== "" && selectedTurno !== null && selectedDate !== null && selectedClima !== null && selectedBusca !== null && dadosMeteorologicos !== null;
+  };
+
+  const handleSalvar = () => {
+    console.log("Temperatura: ", temperatura);
+
+    if (validateFields()) {
+      setModalSucesso(true);
+    } else {
+      setModalErro(true);
+    }
+  };
+
+  return (
     <>
       <GlobalStyles />
-          <Cabecalho />
-          <Breadcrumb />
-          <CadastroMeteorologico />
-          <InputBusca />
-          <InputTemperatura />
-          <InputTempo />
-          <InputData />
-          <InputTags />
-          <InputDadosMetereologicos />  
-          <Botoes />
-    </>
-  )
+      <Cabecalho />
+      <Breadcrumb />
+      <Titulo />
+      <InputBusca onInputChange={handleBuscaChange} />
+      <InputTemperatura onInputChange={handleTemperaturaChange} />
+      <InputTempo onInputChange={handleClimaChange} />
+      <InputTags onInputChange={handleTurnoChange} />
+      <InputData onInputChange={handleDateChange} />
+      <InputDadosMetereologicos
+        onInputChange={{
+          precipitacao: handlePrecipitacaoChange,
+          umidade: handleUmidadeChange,
+          velocidadeVento: handleVelocidadeVentoChange
+        }}
+      />
 
-export default App
+      <Botoes onSave={handleSalvar} />
+      <CenarioSucesso
+        isOpen={showModalSucesso}
+        onClose={() => setModalSucesso(false)}
+        validateFields={validateFields}
+      />
+      <ModalErro isOpen={showModalErro} onClose={() => setModalErro(false)} />
+    </>
+  );
+};
+
+export default App;

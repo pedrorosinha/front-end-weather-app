@@ -5,7 +5,7 @@ const CabecalhoEstilizado = styled.header`
     width: 1440px;
     height: 70px;
     top: 0px;
-    background-color: #414ABA
+    background-color: #414ABA;
 `
 const Logo = styled.img`
     position: absolute;
