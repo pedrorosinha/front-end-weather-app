@@ -46,28 +46,20 @@ const CustomInputNumber = styled(InputNumber)`
 `;
 
 const InputDadosMetereologicos = ({ onInputChange }) => {
-  const [precipitacao, setPrecipitacao] = useState(null);
-  const [umidade, setUmidade] = useState(null);
-  const [velocidadeVento, setVelocidadeVento] = useState(null);
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState({
+    precipitacao: null,
+    umidade: null,
+    velocidadeVento: null
+  });
 
-  const handlePrecipitacaoChange = (value) => {
-    setPrecipitacao(value);
-    if (onInputChange) {
-      onInputChange({ precipitacao: value, umidade, velocidadeVento });
-    }
-  };
+  const handleInputChange = (field, value) => {
+    setDadosMeteorologicos({
+      ...dadosMeteorologicos,
+      [field]: value
+    });
 
-  const handleUmidadeChange = (value) => {
-    setUmidade(value);
     if (onInputChange) {
-      onInputChange({ precipitacao, umidade: value, velocidadeVento });
-    }
-  };
-
-  const handleVelocidadeVentoChange = (value) => {
-    setVelocidadeVento(value);
-    if (onInputChange) {
-      onInputChange({ precipitacao, umidade, velocidadeVento: value });
+      onInputChange({ ...dadosMeteorologicos, [field]: value });
     }
   };
 
@@ -81,24 +73,24 @@ const InputDadosMetereologicos = ({ onInputChange }) => {
         <Titulo>Precipitação*</Titulo>
         <CustomInputNumber
           placeholder="Digite aqui"
-          isvalid={validateField(precipitacao) ? "true" : "false"}
-          onChange={handlePrecipitacaoChange}
+          isvalid={validateField(dadosMeteorologicos.precipitacao) ? "true" : "false"}
+          onChange={(value) => handleInputChange('precipitacao', value)}
         />
       </InputContainer>
       <InputContainer>
         <Titulo>Umidade*</Titulo>
         <CustomInputNumber
           placeholder="Digite aqui"
-          isvalid={validateField(umidade) ? "true" : "false"}
-          onChange={handleUmidadeChange}
+          isvalid={validateField(dadosMeteorologicos.umidade) ? "true" : "false"}
+          onChange={(value) => handleInputChange('umidade', value)}
         />
       </InputContainer>
       <InputContainer>
         <Titulo>Velocidade do vento*</Titulo>
         <CustomInputNumber
           placeholder="Digite aqui"
-          isvalid={validateField(velocidadeVento) ? "true" : "false"}
-          onChange={handleVelocidadeVentoChange}
+          isvalid={validateField(dadosMeteorologicos.velocidadeVento) ? "true" : "false"}
+          onChange={(value) => handleInputChange('velocidadeVento', value)}
         />
       </InputContainer>
     </Container>

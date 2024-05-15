@@ -47,29 +47,24 @@ const App = () => {
     setSelectedBusca(busca);
   };
 
-  const handlePrecipitacaoChange = (value) => {
-    setDadosMeteorologicos({ ...dadosMeteorologicos, precipitacao: value });
-    if (onInputChange && onInputChange.precipitacao) {
-      onInputChange.precipitacao(value);
-    }
-  };
-
-  const handleUmidadeChange = (value) => {
-    setDadosMeteorologicos({ ...dadosMeteorologicos, umidade: value });
-    if (onInputChange && onInputChange.umidade) {
-      onInputChange.umidade(value);
-    }
-  };
-
-  const handleVelocidadeVentoChange = (value) => {
-    setDadosMeteorologicos({ ...dadosMeteorologicos, velocidadeVento: value });
-    if (onInputChange && onInputChange.velocidadeVento) {
-      onInputChange.velocidadeVento(value);
-    }
+  const handleDadosMeteorologicosChange = (data) => {
+    setDadosMeteorologicos({
+      ...dadosMeteorologicos,
+      ...data
+    });
   };
 
   const validateFields = () => {
-    return temperatura !== "" && selectedTurno !== null && selectedDate !== null && selectedClima !== null && selectedBusca !== null && dadosMeteorologicos !== null;
+    return (
+      temperatura !== "" &&
+      selectedTurno !== null &&
+      selectedDate !== null &&
+      selectedClima !== null &&
+      selectedBusca !== null &&
+      dadosMeteorologicos.precipitacao !== null &&
+      dadosMeteorologicos.umidade !== null &&
+      dadosMeteorologicos.velocidadeVento !== null
+    );
   };
 
   const handleSalvar = () => {
@@ -93,14 +88,7 @@ const App = () => {
       <InputTempo onInputChange={handleClimaChange} />
       <InputTags onInputChange={handleTurnoChange} />
       <InputData onInputChange={handleDateChange} />
-      <InputDadosMetereologicos
-        onInputChange={{
-          precipitacao: handlePrecipitacaoChange,
-          umidade: handleUmidadeChange,
-          velocidadeVento: handleVelocidadeVentoChange
-        }}
-      />
-
+      <InputDadosMetereologicos onInputChange={handleDadosMeteorologicosChange} />
       <Botoes onSave={handleSalvar} />
       <CenarioSucesso
         isOpen={showModalSucesso}
