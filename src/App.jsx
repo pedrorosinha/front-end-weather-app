@@ -68,8 +68,6 @@ const App = () => {
   };
 
   const handleSalvar = () => {
-    console.log("Temperatura: ", temperatura);
-
     if (validateFields()) {
       setModalSucesso(true);
     } else {

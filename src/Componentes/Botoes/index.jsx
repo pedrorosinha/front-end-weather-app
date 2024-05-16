@@ -45,10 +45,9 @@ const StyledCancelButton = styled(Button)`
     color: #14B6EF !important;
   }
 `;
-const Botoes = ({ onSave, onCancel, dadosInput }) => {
+const Botoes = ({ onSave, onCancel }) => {
   const handleClickSalvar = () => {
-    console.log(onSave(dadosInput));
-    onSave(dadosInput);
+    onSave();
   };
 
   return (

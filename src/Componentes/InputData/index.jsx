@@ -61,11 +61,12 @@ const StyledDatePicker = styled(DatePicker)`
   }
 `;
 
-const InputData = () => {
+const InputData = ({ onInputChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateChange = (date, dateString) => {
     setSelectedDate(dateString);
+    onInputChange(dateString);
   };
 
   const validateField = () => {

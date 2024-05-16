@@ -64,11 +64,12 @@ const TurnoButton = styled.button`
   }
 `;
 
-const InputTags = () => {
+const InputTags = ({ onInputChange }) => {
   const [activeTurno, setActiveTurno] = useState(null);
 
   const handleTurnoClick = (turno) => {
     setActiveTurno(turno);
+    onInputChange(turno);
   };
 
   const validateField = () => {

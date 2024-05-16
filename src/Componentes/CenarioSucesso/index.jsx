@@ -6,7 +6,6 @@ import styled from "styled-components";
 const CustomModal = styled(Modal)`
   .ant-modal-content {
     background-color: #07A24C;
-    border-radius: 8px; 
   }
 `;
 
@@ -23,12 +22,14 @@ const SuccessModalContent = styled.div`
   padding: 24px;
   gap: 24px;
   width: 663px;
-  height: 200px;
-  background: #07A24C;
+  height: 154px;
   border-radius: 8px;
 `;
 
 const SuccessMessage = styled.div`
+  height: 106px;
+  width: 567px;
+  align-items: center;
   font-family: 'TTSupermolot-Regular';
   font-size: 32px;
   line-height: 39px;
@@ -57,6 +58,7 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       centered
+      footer={null}
     >
       <SuccessModalContent>
         {isFormComplete ? (
