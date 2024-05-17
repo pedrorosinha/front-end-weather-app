@@ -87,6 +87,7 @@ const InputBusca = ({ onInputChange }) => {
         value={cidade}
         onChange={handleInputChange}
         className={cidadeValida ? "valid" : "invalid"}
+        data-testId="input-busca"
       />
       {!cidadeValida && <div style={{ color: 'red' }}>Informe a cidade</div>}
     </InputContainer>
