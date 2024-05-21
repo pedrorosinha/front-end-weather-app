@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const CabecalhoEstilizado = styled.header`
-    position: absolute;
-    width: 1440px;
+    position: fixed;
+    width: 100%;
     height: 70px;
     top: 0px;
     background-color: #414ABA;
