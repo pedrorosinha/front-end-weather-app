@@ -1,18 +1,19 @@
-import { defineConfig } from "cypress";
+const { defineConfig } = require('cypress');
+const webpackConfig = require('./webpack.config.js');
 
-export default defineConfig({
-
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:5173',
+    setupNodeEvents(on, config) {
+    },
+    supportFile: 'cypress/support/index.js',
+  },
   component: {
     devServer: {
-      framework: "react",
-      bundler: "webpack",
+      framework: 'react',
+      bundler: 'webpack',
+      webpackConfig: webpackConfig,
     },
-  },
-
-  e2e: {
-    baseUrl: "http://localhost:5173",
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
+    supportFile: 'cypress/support/component.js',
   },
 });
