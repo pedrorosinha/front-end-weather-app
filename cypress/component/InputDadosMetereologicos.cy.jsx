@@ -4,7 +4,7 @@ import React from "react";
 import { mount } from "cypress/react";
 import InputDadosMetereologicos from "../../src/Componentes/InputDadosMetereologicos";
 
-describe('InputDadosMetereologicos Component', () => {
+describe('Teste do componente de InputDadosMetereologicos', () => {
   it('Deve renderizar os campos de entrada com os placeholders corretos', () => {
     mount(<InputDadosMetereologicos />);
 

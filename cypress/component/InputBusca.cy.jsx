@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'cypress/react';
 import InputBusca from '../../src/Componentes/InputBusca';
 
-describe('InputBusca Component', () => {
+describe('Teste do componente de InputBusca', () => {
   it('Deve renderizar corretamente', () => {
     mount(<InputBusca />);
     cy.get('div').contains('Buscar a cidade'); 
