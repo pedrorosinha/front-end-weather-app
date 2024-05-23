@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import LogpDb from './imagem/logo-db.png';
 
 const CabecalhoEstilizado = styled.header`
     position: fixed;
@@ -19,7 +20,7 @@ const Logo = styled.img`
 const Cabecalho = () => {
     return (
         <CabecalhoEstilizado>
-            <Logo src="public/Icones/logo-db.png" alt="Logo DB" />
+            <Logo src={LogpDb} />
         </CabecalhoEstilizado>
     )
 }
