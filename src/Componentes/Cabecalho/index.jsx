@@ -6,6 +6,7 @@ const CabecalhoEstilizado = styled.header`
     height: 70px;
     top: 0px;
     background-color: #414ABA;
+    z-index: 1000;
 `
 const Logo = styled.img`
     position: absolute;
@@ -13,8 +14,6 @@ const Logo = styled.img`
     height: 34px;
     margin-left: 120px;
     margin-top: 18px;
-    margin-bottom: 18px;
-    margin-right: 1244px;
 `
 
 const Cabecalho = () => {
