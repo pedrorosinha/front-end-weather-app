@@ -54,7 +54,7 @@ const SimboloMaiorContainer = styled.div`
 `;
 
 const Cadastro = styled.span`
-  width: 290px;
+  width: 300px;
   height: 20px;
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
