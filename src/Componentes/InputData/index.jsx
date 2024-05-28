@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const Titulo = styled.div`
-  position: absolute;
+  position: relative;
   width: 236px;
   height: 39px;
   left: 709px;
@@ -26,11 +26,11 @@ const DateContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  position: absolute;
+  position: relative;
   width: 200px;
   height: 68px;
   left: 709px;
-  top: 316px;
+  top: 277px;
 `;
 
 const Subtitulo = styled.div`
