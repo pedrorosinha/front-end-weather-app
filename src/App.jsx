@@ -12,8 +12,11 @@ import Botoes from "./Componentes/Botoes";
 import CenarioSucesso from "./Componentes/CenarioSucesso";
 import Titulo from "./Componentes/Titulo";
 import ModalErro from './Componentes/CenarioErro';
+import axios from "axios";
 
 const App = () => {
+  const API_URL = process.env.REACT_APP_API_URL
+
   const [temperatura, setTemperatura] = useState("");
   const [showModalSucesso, setModalSucesso] = useState(false);
   const [showModalErro, setModalErro] = useState(false);
@@ -67,13 +70,36 @@ const App = () => {
     );
   };
 
-  const handleSalvar = () => {
+  const handleSalvar = async () => {
     if (validateFields()) {
-      setModalSucesso(true);
+      try {
+        const dados = {
+          cidade: selectedBusca,
+          turno: selectedTurno,
+          clima: selectedClima,
+          temperaturaMinima: temperatura.temperaturaMinima,
+          temperaturaMaxima: temperatura.temperaturaMaxima,
+          precipitacao: dadosMeteorologicos.precipitacao,
+          umidade: dadosMeteorologicos.umidade,
+          velocidadeVento: dadosMeteorologicos.velocidadeVento,
+          data: selectedDate,
+        };
+  
+        const response = await axios.post(`${API_URL}/tempo/previsao/`, dados, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+  
+        if (response.status === 201) {
+          setModalSucesso(true);
+        }
+      } catch (error) {
+        setModalErro(true);
+        console.log("Erro!", error);
+      }
     } else {
       setModalErro(true);
     }
-  };
+  };  
 
   return (
     <>

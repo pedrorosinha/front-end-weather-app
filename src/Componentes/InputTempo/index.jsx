@@ -94,11 +94,11 @@ const InputTempo = ({ onInputChange }) => {
           onChange={handleSelectChange}
           value={clima}
         >
-          <CustomOption value="chuvoso">Chuvoso</CustomOption>
-          <CustomOption value="ensolarado">Ensolarado</CustomOption>
-          <CustomOption value="garoando">Garoando</CustomOption>
-          <CustomOption value="nevando">Nevando</CustomOption>
-          <CustomOption value="nublado">Nublado</CustomOption>
+          <CustomOption value="CHUVOSO">Chuvoso</CustomOption>
+          <CustomOption value="ENSOLARADO">Ensolarado</CustomOption>
+          <CustomOption value="GAROANDO">Garoando</CustomOption>
+          <CustomOption value="NEVANDO">Nevando</CustomOption>
+          <CustomOption value="NUBLADO">Nublado</CustomOption>
         </StyledSelect>
         {clima === null && (
           <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>

@@ -82,20 +82,20 @@ const InputTags = ({ onInputChange }) => {
       <Subtitulo>Turno*</Subtitulo>
       <ButtonGroup>
         <TurnoButton
-          isactive={activeTurno === "Manhã" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Manhã")}
+          isactive={activeTurno === "MANHA" ? "true" : "false"}
+          onClick={() => handleTurnoClick("MANHA")}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
-          isactive={activeTurno === "Tarde" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Tarde")}
+          isactive={activeTurno === "TARDE" ? "true" : "false"}
+          onClick={() => handleTurnoClick("TARDE")}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
-          isactive={activeTurno === "Noite" ? "true" : "false"}
-          onClick={() => handleTurnoClick("Noite")}
+          isactive={activeTurno === "NOITE" ? "true" : "false"}
+          onClick={() => handleTurnoClick("NOITE")}
         >
           Noite
         </TurnoButton>
