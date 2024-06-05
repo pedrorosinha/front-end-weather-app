@@ -5,47 +5,27 @@ import { Select } from "antd";
 const { Option } = Select;
 
 const Container = styled.div`
-  position: relative;
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const Titulo = styled.div`
-  position: absolute;
-  width: 224px;
-  height: 39px;
-  left: 120px;
-  top: 669px;
   font-family: 'TTSupermolot-Regular';
   font-size: 32px;
   font-weight: 400;
-  line-height: 39.36px;
   color: #292929;
 `;
 
-const SelectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  position: absolute;
-  width: 207px;
-  height: 70px;
-  left: 120px;
-  top: 724px;
-`;
-
 const Subtitulo = styled.div`
-  width: 52px;
-  height: 22px;
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
   font-weight: 400;
-  line-height: 22px;
   color: #292929;
 `;
 
 const StyledSelect = styled(Select)`
-  width: 100%;
+  width: 200px;
   height: 40px;
   border-radius: 6px;
   border: 2px solid #414ABA;
@@ -86,24 +66,22 @@ const InputTempo = ({ onInputChange }) => {
 
   return (
     <Container>
-      <Titulo>Informe o clima</Titulo>
-      <SelectContainer>
-        <Subtitulo>Clima*</Subtitulo>
-        <StyledSelect
-          defaultValue="Selecione"
-          onChange={handleSelectChange}
-          value={clima}
-        >
-          <CustomOption value="CHUVOSO">Chuvoso</CustomOption>
-          <CustomOption value="ENSOLARADO">Ensolarado</CustomOption>
-          <CustomOption value="GAROANDO">Garoando</CustomOption>
-          <CustomOption value="NEVANDO">Nevando</CustomOption>
-          <CustomOption value="NUBLADO">Nublado</CustomOption>
-        </StyledSelect>
-        {clima === null && (
-          <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
-        )}
-      </SelectContainer>
+      <Titulo>Informe o Clima</Titulo>
+      <Subtitulo>Clima*</Subtitulo>
+      <StyledSelect
+        defaultValue="Selecione"
+        onChange={handleSelectChange}
+        value={clima}
+      >
+        <CustomOption value="CHUVOSO">Chuvoso</CustomOption>
+        <CustomOption value="ENSOLARADO">Ensolarado</CustomOption>
+        <CustomOption value="GAROANDO">Garoando</CustomOption>
+        <CustomOption value="NEVANDO">Nevando</CustomOption>
+        <CustomOption value="NUBLADO">Nublado</CustomOption>
+      </StyledSelect>
+      {clima === null && (
+        <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
+      )}
     </Container>
   );
 };

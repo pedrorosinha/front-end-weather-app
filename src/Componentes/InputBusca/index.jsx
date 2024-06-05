@@ -4,35 +4,26 @@ import styled from "styled-components";
 import { SearchOutlined } from '@ant-design/icons';
 
 const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
   gap: 16px;
-  position: absolute;
   width: 466px;
-  height: 125px;
-  left: 120px;
+  left: 121px;
   top: 242px;
 `;
 
 const Titulo = styled.div`
-  width: 226px;
-  height: 39px;
   font-family: 'TTSupermolot-Regular';
   font-size: 32px;
   font-weight: 400;
-  line-height: 39px;
   color: #292929;
 `;
 
 const Subtitulo = styled.div`
-  width: 62px;
-  height: 22px;
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
   font-weight: 400;
-  line-height: 22.14px;
   color: #292929;
 `;
 
@@ -44,7 +35,6 @@ const StyledInput = styled(Input)`
     font-family: 'TTSupermolot-Regular';
     font-size: 18px;
     font-weight: 400;
-    line-height: 22.14px;
     text-align: left;
     padding-right: 40px;
   }

@@ -7,9 +7,9 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  position: absolute;
   width: 488px;
   height: 76px;
+  margin-bottom: 55px;
   left: 390px;
   top: 724px;
 `;

@@ -3,14 +3,10 @@ import React from "react";
 import styled from "styled-components";
 
 const ButtonContainer = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: row;
-  width: 409px;
-  height: 40px;
-  top: 852px;
-  left: 516px;
   gap: 9px;
+  justify-content: flex-end;
 `;
 
 const StyledSaveButton = styled(Button)`
@@ -22,7 +18,7 @@ const StyledSaveButton = styled(Button)`
   color: #ffffff;
   font-family: 'TTSupermolot-Bold';
   font-size: 18px;
-  
+
   &:hover {
     background-color: #14B6EF !important;
     color: #ffffff !important;
@@ -38,25 +34,24 @@ const StyledCancelButton = styled(Button)`
   color: #414aba;
   font-family: 'TTSupermolot-Bold';
   font-size: 18px;
-  
+
   &:hover {
     background-color: #FFFFFF !important;
     border: 2px solid #14B6EF !important;
     color: #14B6EF !important;
   }
 `;
+
 const Botoes = ({ onSave, onCancel }) => {
   const handleClickSalvar = () => {
     onSave();
   };
 
   return (
-    <>
-      <ButtonContainer>
-        <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
-        <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
-      </ButtonContainer>
-    </>
+    <ButtonContainer>
+      <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
+      <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
+    </ButtonContainer>
   );
 };
 

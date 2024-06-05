@@ -1,50 +1,31 @@
 import React, { useState } from "react";
-import { DatePicker } from "antd";
 import styled from "styled-components";
+import { DatePicker } from "antd";
 import locale from "antd/es/date-picker/locale/pt_BR";
 
 const Container = styled.div`
-  position: relative;
+  display: grid;
   margin-bottom: 16px;
 `;
 
 const Titulo = styled.div`
-  position: relative;
-  width: 236px;
-  height: 39px;
-  left: 709px;
-  top: 261px;
   font-family: 'TTSupermolot-Regular';
   font-size: 32px;
   font-weight: 400;
-  line-height: 39px;
   color: #292929;
-`;
-
-const DateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  position: relative;
-  width: 200px;
-  height: 68px;
-  left: 709px;
-  top: 277px;
+  margin: 44px 0 16px;
 `;
 
 const Subtitulo = styled.div`
-  width: 45px;
-  height: 22px;
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
   font-weight: 400;
-  line-height: 22px;
   color: #292929;
+  margin-bottom: 8px;
 `;
 
 const StyledDatePicker = styled(DatePicker)`
-  width: 100%;
+  width: 200px;
   height: 40px;
   border-radius: 6px;
   border: 2px solid #414ABA;
@@ -54,7 +35,6 @@ const StyledDatePicker = styled(DatePicker)`
   font-family: 'TTSupermolot-Regular';
   font-size: 18px;
   font-weight: 400;
-  line-height: 22px;
   color: #292929;
   .ant-picker-suffix {
     color: #414ABA;
@@ -75,17 +55,15 @@ const InputData = ({ onInputChange }) => {
 
   return (
     <Container>
-      <Titulo>Selecione a data</Titulo>
-      <DateContainer>
-        <Subtitulo>Data*</Subtitulo>
-        <StyledDatePicker
-          placeholder="Selecione a data"
-          format="DD/MM/YYYY"
-          locale={locale}
-          onChange={handleDateChange}
-        />
-        {!validateField() && <div style={{ color: 'red' }}>Selecione uma data.</div>}
-      </DateContainer>
+      <Titulo>Informe a data</Titulo>
+      <Subtitulo>Data*</Subtitulo>
+      <StyledDatePicker
+        placeholder="Selecione a data"
+        format="DD/MM/YYYY"
+        locale={locale}
+        onChange={handleDateChange}
+      />
+      {!validateField() && <div style={{ color: 'red', marginTop: '8px' }}>Informe a data.</div>}
     </Container>
   );
 };
