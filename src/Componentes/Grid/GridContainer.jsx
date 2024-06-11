@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Row, Col } from 'antd';
 import axios from 'axios';
 import GlobalStyles from '../EstiloGlobal';
-import Cabecalho from '../Cabecalho';
 import Breadcrumb from '../BreadCrumb';
 import InputBusca from '../InputBusca';
 import InputTemperatura from '../InputTemperatura';
@@ -120,7 +119,6 @@ const MainForm = () => {
   return (
     <PageContainer>
       <GlobalStyles />
-      <Cabecalho />
       <Breadcrumb />
       <Titulo />
       <Row gutter={[16, 16]} style={{ marginTop: '32px', rowGap: '16px', maxWidth: '95%', marginLeft: '121px', marginRight: 'auto', justifyContent: 'center' }}>

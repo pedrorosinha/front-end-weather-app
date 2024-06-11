@@ -11,6 +11,8 @@ const InputContainer = styled.div`
   width: 466px;
   left: 121px;
   top: 242px;
+  margin-left: ${({ marginLeft }) => marginLeft || '0px'};
+  margin-top: ${({ marginTop }) => marginTop || '0px'};
 `;
 
 const Titulo = styled.div`
@@ -52,32 +54,34 @@ const StyledSearchIcon = styled(SearchOutlined)`
   padding: 4px; 
 `;
 
-const InputBusca = ({ onInputChange }) => {
+const InputBusca = ({ onSearch, marginLeft, marginTop }) => {
   const [cidade, setCidade] = useState("");
   const [cidadeValida, setCidadeValida] = useState(false);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
     setCidade(value);
-    setCidadeValida(value.trim() !== ""); 
+    setCidadeValida(value.trim() !== "");
+  };
 
-    if (typeof onInputChange === 'function') {
-      onInputChange(value);
+  const handleSearch = () => {
+    if (cidadeValida && typeof onSearch === 'function') {
+      onSearch(cidade);
     }
   };
 
   return (
-    <InputContainer>
-      <Titulo>Buscar a cidade</Titulo>
+    <InputContainer marginLeft={marginLeft} marginTop={marginTop}>
+      <Titulo>Buscar Cidade</Titulo>
       <Subtitulo>Cidade*</Subtitulo>
       <StyledInput
         size='large'
         placeholder='Busque por uma cidade'
-        suffix={<StyledSearchIcon />}
+        suffix={<StyledSearchIcon onClick={handleSearch} />}
         value={cidade}
         onChange={handleInputChange}
         className={cidadeValida ? "valid" : "invalid"}
-        data-testId="input-busca"
+        data-testid="input-busca"
       />
       {!cidadeValida && <div style={{ color: 'red' }}>Informe a cidade</div>}
     </InputContainer>
