@@ -32,7 +32,7 @@ const CustomCol = styled(Col)`
 const MainForm = () => {
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const [temperatura, setTemperatura] = useState("");
+  const [temperatura, setTemperatura] = useState({min: null, max: null});
   const [showModalSucesso, setModalSucesso] = useState(false);
   const [showModalErro, setModalErro] = useState(false);
   const [selectedTurno, setSelectedTurno] = useState(null);
@@ -74,7 +74,8 @@ const MainForm = () => {
 
   const validateFields = () => {
     return (
-      temperatura !== "" &&
+      temperatura.min !== "" &&
+      temperatura.max !== "" &&
       selectedTurno !== null &&
       selectedDate !== null &&
       selectedClima !== null &&
@@ -92,8 +93,8 @@ const MainForm = () => {
           cidade: selectedBusca,
           turno: selectedTurno,
           clima: selectedClima,
-          temperaturaMinima: temperatura.temperaturaMinima,
-          temperaturaMaxima: temperatura.temperaturaMaxima,
+          temperaturaMinima: temperatura.min,
+          temperaturaMaxima: temperatura.max,
           precipitacao: dadosMeteorologicos.precipitacao,
           umidade: dadosMeteorologicos.umidade,
           velocidadeVento: dadosMeteorologicos.velocidadeVento,
