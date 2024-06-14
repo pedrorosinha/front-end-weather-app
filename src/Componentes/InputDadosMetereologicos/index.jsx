@@ -75,6 +75,8 @@ const InputDadosMetereologicos = ({ onInputChange }) => {
           placeholder="Digite aqui"
           isvalid={validateField(dadosMeteorologicos.precipitacao) ? "true" : "false"}
           onChange={(value) => handleInputChange('precipitacao', value)}
+          formatter={(value) => `${value}mm`}
+            parser={(value) => value?.replace('mm', '')}
           data-testid="input-precipitacao"
         />
       </InputContainer>
@@ -84,6 +86,8 @@ const InputDadosMetereologicos = ({ onInputChange }) => {
           placeholder="Digite aqui"
           isvalid={validateField(dadosMeteorologicos.umidade) ? "true" : "false"}
           onChange={(value) => handleInputChange('umidade', value)}
+          formatter={(value) => `${value}%`}
+            parser={(value) => value?.replace('%', '')}
           data-testid="input-umidade"
         />
       </InputContainer>
@@ -93,6 +97,8 @@ const InputDadosMetereologicos = ({ onInputChange }) => {
           placeholder="Digite aqui"
           isvalid={validateField(dadosMeteorologicos.velocidadeVento) ? "true" : "false"}
           onChange={(value) => handleInputChange('velocidadeVento', value)}
+          formatter={(value) => `${value}km/h`}
+            parser={(value) => value?.replace('km/h', '')}
           data-testid="input-velocidade-vento"
         />
       </InputContainer>
