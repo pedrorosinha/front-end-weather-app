@@ -29,19 +29,21 @@ const ListarPagina = () => {
 
   useEffect(() => {
     const buscarDadosMeteorologicos = async () => {
-      if (cidadeSelecionada) {
-        try {
-          const response = await axios.get(`http://localhost:8080/tempo/previsao/todasPorCidade?cidade=${cidadeSelecionada}`);
-          const data = response.data;
+      try {
+        const url = cidadeSelecionada
+          ? `http://localhost:8080/tempo/previsao/todasPorCidade?cidade=${cidadeSelecionada}`
+          : 'http://localhost:8080/tempo/previsao/todas';
+        
+        const response = await axios.get(url);
+        const data = response.data;
 
-          if (Array.isArray(data)) {
-            setDadosMeteorologicos(data);
-          } else {
-            setDadosMeteorologicos([data]);
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados meteorológicos:", error);
+        if (Array.isArray(data)) {
+          setDadosMeteorologicos(data);
+        } else {
+          setDadosMeteorologicos([data]);
         }
+      } catch (error) {
+        console.error("Erro ao buscar dados meteorológicos:", error);
       }
     };
 
@@ -107,9 +109,21 @@ const ListarPagina = () => {
 
   const columns = [
     { title: 'Data', dataIndex: 'data', key: 'data' },
-    { title: 'Cidade', dataIndex: 'cidade', key: 'cidade' },
-    { title: 'Temperatura Mínima', dataIndex: 'temperaturaMinima', key: 'temperaturaMinima' },
-    { title: 'Temperatura Máxima', dataIndex: 'temperaturaMaxima', key: 'temperaturaMaxima' },
+    { 
+      title: 'Cidade', 
+      dataIndex: 'cidade', 
+      key: 'cidade',
+    },
+    { 
+      title: 'Temperatura Mínima', 
+      dataIndex: 'temperaturaMinima', 
+      key: 'temperaturaMinima', 
+      render: (texto) => `${texto} ºC`},
+    { 
+      title: 'Temperatura Máxima', 
+      dataIndex: 'temperaturaMaxima', 
+      key: 'temperaturaMaxima',
+      render: (texto) => `${texto} ºC` },
     { title: 'Clima', dataIndex: 'clima', key: 'clima' },
     { 
       title: 'Turno', 
@@ -117,16 +131,30 @@ const ListarPagina = () => {
       key: 'turno', 
       render: (turno) => renderTags(turno)
     },
-    { title: 'Precipitação', dataIndex: 'precipitacao', key: 'precipitacao' },
-    { title: 'Umidade', dataIndex: 'umidade', key: 'umidade' },
-    { title: 'Velocidade do Vento', dataIndex: 'velocidadeVento', key: 'velocidadeVento' },
+    { 
+      title: 'Precipitação', 
+      dataIndex: 'precipitacao', 
+      key: 'precipitacao',
+      render: (texto) => `${texto} mm`
+    },
+    { 
+      title: 'Umidade', 
+      dataIndex: 'umidade', 
+      key: 'umidade', 
+      render: (texto) => `${texto} %`
+    },
+    { 
+      title: 'Velocidade do Vento', 
+      dataIndex: 'velocidadeVento', 
+      key: 'velocidadeVento',
+      render: (texto) => `${texto} km/h` },
     {
       title: 'Ações',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => handleEdit(record)}>Editar</a>
-          <a onClick={() => showDeleteModal(record)}>Excluir</a>
+          <a onClick={() => handleEdit(record)} style={{ color: '#141ABA' }}>Editar</a>
+          <a onClick={() => showDeleteModal(record)} style={{color: '#141ABA'}}>Excluir</a>
         </Space>
       ),
     },
@@ -145,7 +173,13 @@ const ListarPagina = () => {
         marginTop="40px"
         onSearch={handleSearch}
       />
-        <StyledTable dataSource={dadosMeteorologicos} columns={columns} rowKey="id" />
+      <StyledTable 
+        dataSource={dadosMeteorologicos} 
+        columns={columns} 
+        rowKey="id"
+        pagination={{ pageSize: 10 }}
+        locale={{emptyText: <span style={{fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000'}}>Não há dados cadastrados</span>}}
+      />
       <Modal
         open={isModalVisible}
         onOk={handleDelete}
