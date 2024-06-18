@@ -6,17 +6,24 @@ import { useNavigate } from "react-router-dom";
 import GlobalStyles from "../EstiloGlobal";
 import InputBusca from "../InputBusca";
 import Titulo from "../Titulo";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 
 const StyledTable = styled(Table)`
   .ant-table {
     font-family: 'TT-Supermolot-Regular';
     margin-left: 120px;
-    display: flex;
+    margin-right: 20px;
     margin-top: 40px;
   }
 
   .ant-table-thead > tr > th {
     font-family: "TT-Supemolot-Bold";
+  }
+
+  .expand-icon {
+    font-size: 16px;
+    color: #141ABA;
+    border: 2px solid #141ABA;  
   }
 `;
 
@@ -25,6 +32,7 @@ const ListarPagina = () => {
   const [cidadeSelecionada, setCidadeSelecionada] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [recordToDelete, setRecordToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -131,23 +139,6 @@ const ListarPagina = () => {
       key: 'turno', 
       render: (turno) => renderTags(turno)
     },
-    { 
-      title: 'Precipitação', 
-      dataIndex: 'precipitacao', 
-      key: 'precipitacao',
-      render: (texto) => `${texto} mm`
-    },
-    { 
-      title: 'Umidade', 
-      dataIndex: 'umidade', 
-      key: 'umidade', 
-      render: (texto) => `${texto} %`
-    },
-    { 
-      title: 'Velocidade do Vento', 
-      dataIndex: 'velocidadeVento', 
-      key: 'velocidadeVento',
-      render: (texto) => `${texto} km/h` },
     {
       title: 'Ações',
       key: 'action',
@@ -160,8 +151,39 @@ const ListarPagina = () => {
     },
   ];
 
+  const expandable = {
+    expandedRowRender: (record) => (
+      <table style={{ width: "350px" }}>
+        <thead>
+          <tr>
+            <th>Precipitação</th>
+            <th>Umidade</th>
+            <th>Velocidade do Vento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{record.precipitacao} mm</td>
+            <td>{record.umidade} %</td>
+            <td>{record.velocidadeVento} km/h</td>
+          </tr>
+        </tbody>
+      </table>
+    ),
+    expandIcon: ({ expanded, onExpand, record }) =>
+      expanded ? (
+        <MinusOutlined onClick={e => onExpand(record, e)} className="expand-icon" />
+      ) : (
+        <PlusOutlined onClick={e => onExpand(record, e)} className="expand-icon" />
+      ),
+  };
+
   const handleSearch = (cidade) => {
     setCidadeSelecionada(cidade);
+  };
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -177,8 +199,19 @@ const ListarPagina = () => {
         dataSource={dadosMeteorologicos} 
         columns={columns} 
         rowKey="id"
-        pagination={{ pageSize: 10 }}
+        pagination={{ 
+          pageSize: 10,
+          total: dadosMeteorologicos.length,
+          pageSizeOptions: ['10', '20', '30', '40', '50'],
+          current: currentPage,
+          onChange: handlePageChange,
+          showQuickJumper: true,
+          showSizeChanger: true,
+          position: ['bottomCenter'] 
+        }}
+        expandable={expandable}
         locale={{emptyText: <span style={{fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000'}}>Não há dados cadastrados</span>}}
+        scroll={{ x: 'max-content' }}
       />
       <Modal
         open={isModalVisible}
