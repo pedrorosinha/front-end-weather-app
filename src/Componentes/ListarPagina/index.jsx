@@ -89,7 +89,8 @@ const ListarPagina = () => {
   };
 
   const handleEdit = (record) => {
-    navigate('/', { state: { record } });
+    const navigate = useNavigate();
+    navigate('/editar', { state: { record } });
   };
 
   const showDeleteModal = (record) => {
