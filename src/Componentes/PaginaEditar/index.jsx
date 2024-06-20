@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Row, Col, Form, Button, message } from 'antd';
+import { Row, Col } from 'antd';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
 import GlobalStyles from '../EstiloGlobal';
 import Breadcrumb from '../BreadCrumb';
 import InputBusca from '../InputBusca';
@@ -11,8 +10,8 @@ import InputTempo from '../InputTempo';
 import InputTags from '../InputTags';
 import InputData from '../InputData';
 import InputDadosMetereologicos from '../InputDadosMetereologicos';
+import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
-import Titulo from '../Titulo';
 import ModalErro from '../CenarioErro';
 
 const PageContainer = styled.div`
@@ -29,32 +28,94 @@ const CustomCol = styled(Col)`
   }
 `;
 
-const UpdateForm = () => {
+const EditarFormulario = ({ record }) => {
   const API_URL = process.env.REACT_APP_API_URL;
-  const [form] = Form.useForm();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const record = location.state?.record;
 
+  const [temperatura, setTemperatura] = useState({
+    min: record.temperaturaMinima,
+    max: record.temperaturaMaxima,
+  });
   const [showModalSucesso, setModalSucesso] = useState(false);
   const [showModalErro, setModalErro] = useState(false);
+  const [selectedTurno, setSelectedTurno] = useState(record.turno);
+  const [selectedDate, setSelectedDate] = useState(record.data);
+  const [selectedClima, setSelectedClima] = useState(record.clima);
+  const [selectedBusca, setSelectedBusca] = useState(record.cidade);
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState({
+    precipitacao: record.precipitacao,
+    umidade: record.umidade,
+    velocidadeVento: record.velocidadeVento,
+  });
 
-  useEffect(() => {
-    if (record) {
-      form.setFieldsValue(record);
-    }
-  }, [record, form]);
+  const handleTemperaturaChange = (value) => {
+    setTemperatura(value);
+  };
 
-  const handleAtualizar = async (values) => {
-    try {
-      await axios.put(`${API_URL}/tempo/previsao/${record.id}`, values);
-      message.success('Registro atualizado com sucesso');
-      setModalSucesso(true);
+  const handleTurnoChange = (turno) => {
+    setSelectedTurno(turno);
+  };
 
-      navigate('/listar');
-    } catch (error) {
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleClimaChange = (clima) => {
+    setSelectedClima(clima);
+  };
+
+  const handleBuscaChange = (busca) => {
+    setSelectedBusca(busca);
+  };
+
+  const handleDadosMeteorologicosChange = (data) => {
+    setDadosMeteorologicos({
+      ...dadosMeteorologicos,
+      ...data,
+    });
+  };
+
+  const validateFields = () => {
+    return (
+      temperatura.min !== '' &&
+      temperatura.max !== '' &&
+      selectedTurno !== null &&
+      selectedDate !== null &&
+      selectedClima !== null &&
+      selectedBusca !== null &&
+      dadosMeteorologicos.precipitacao !== null &&
+      dadosMeteorologicos.umidade !== null &&
+      dadosMeteorologicos.velocidadeVento !== null
+    );
+  };
+
+  const handleSalvar = async () => {
+    if (validateFields()) {
+      try {
+        const dados = {
+          cidade: selectedBusca,
+          turno: selectedTurno,
+          clima: selectedClima,
+          temperaturaMinima: temperatura.min,
+          temperaturaMaxima: temperatura.max,
+          precipitacao: dadosMeteorologicos.precipitacao,
+          umidade: dadosMeteorologicos.umidade,
+          velocidadeVento: dadosMeteorologicos.velocidadeVento,
+          data: selectedDate,
+        };
+
+        const response = await axios.put(`${API_URL}/tempo/previsao/${record.id}`, dados, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.status === 200) {
+          setModalSucesso(true);
+        }
+      } catch (error) {
+        setModalErro(true);
+        console.log('Erro!', error);
+      }
+    } else {
       setModalErro(true);
-      console.log("Erro!", error);
     }
   };
 
@@ -62,54 +123,62 @@ const UpdateForm = () => {
     <PageContainer>
       <GlobalStyles />
       <Breadcrumb />
-      <Titulo />
-      <Row gutter={[16, 16]} style={{ marginTop: '32px', rowGap: '16px', maxWidth: '95%', marginLeft: '121px', marginRight: 'auto', justifyContent: 'center' }}>
-        <Form form={form} onFinish={handleAtualizar} layout="vertical">
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="cidade" label="Cidade" rules={[{ required: true }]}>
-              <InputBusca style={{ marginTop: '40px', textAlign: 'center' }} />
-            </Form.Item>
-          </CustomCol>
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="data" label="Data" rules={[{ required: true }]}>
-              <InputData />
-            </Form.Item>
-          </CustomCol>
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="temperatura" label="Temperatura" rules={[{ required: true }]}>
-              <InputTemperatura />
-            </Form.Item>
-          </CustomCol>
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="turno" label="Turno" rules={[{ required: true }]}>
-              <InputTags />
-            </Form.Item>
-          </CustomCol>
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="clima" label="Clima" rules={[{ required: true }]}>
-              <InputTempo style={{ marginTop: '86px', textAlign: 'center' }} />
-            </Form.Item>
-          </CustomCol>
-          <CustomCol xs={24} md={12} lg={12}>
-            <Form.Item name="dadosMetereologicos" label="Dados Meteorológicos" rules={[{ required: true }]}>
-              <InputDadosMetereologicos />
-            </Form.Item>
-          </CustomCol>
-          <Col span={20} style={{ margin: '0 auto', textAlign: 'center' }}>
-            <Button type="primary" htmlType="submit">
-              Atualizar
-            </Button>
-          </Col>
-        </Form>
+      <Row
+        gutter={[16, 16]}
+        style={{
+          marginTop: '32px',
+          rowGap: '16px',
+          maxWidth: '95%',
+          marginLeft: '121px',
+          marginRight: 'auto',
+          justifyContent: 'center',
+        }}
+      >
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputBusca
+            onInputChange={handleBuscaChange}
+            value={selectedBusca}
+            style={{ marginTop: '40px', textAlign: 'center' }}
+          />
+        </CustomCol>
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputData onInputChange={handleDateChange} value={selectedDate} />
+        </CustomCol>
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputTemperatura
+            onInputChange={handleTemperaturaChange}
+            value={temperatura}
+            style={{ marginTop: '79px', textAlign: 'center' }}
+          />
+        </CustomCol>
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputTags onInputChange={handleTurnoChange} value={selectedTurno} />
+        </CustomCol>
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputTempo
+            onInputChange={handleClimaChange}
+            value={selectedClima}
+            style={{ marginTop: '86px', textAlign: 'center' }}
+          />
+        </CustomCol>
+        <CustomCol xs={24} md={12} lg={12}>
+          <InputDadosMetereologicos
+            onInputChange={handleDadosMeteorologicosChange}
+            value={dadosMeteorologicos}
+          />
+        </CustomCol>
+        <Col span={20} style={{ margin: '0 auto', textAlign: 'center' }}>
+          <Botoes onSave={handleSalvar} onCancel={() => console.log('Cancelar')} />
+        </Col>
       </Row>
       <CenarioSucesso
         isOpen={showModalSucesso}
         onClose={() => setModalSucesso(false)}
-        form={form}
+        validateFields={validateFields}
       />
       <ModalErro isOpen={showModalErro} onClose={() => setModalErro(false)} />
     </PageContainer>
   );
 };
 
-export default UpdateForm;
+export default EditarFormulario;
