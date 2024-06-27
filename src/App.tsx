@@ -1,15 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainForm from "./Componentes/Grid/GridContainer";
+import MainForm, { MainFormProps }  from "./Componentes/Grid/GridContainer";
 import Cabecalho from "./Componentes/Cabecalho";
 import ListarPagina from "./Componentes/ListarPagina";
 
-const App = () => {
+const API_URL: MainFormProps['API_URL'] = process.env.REACT_APP_API_URL || '';
+
+const App: React.FC = () => {
   return (
     <Router>
       <Cabecalho />
       <Routes>
-        <Route path="/" element={<MainForm />} />
+        <Route path="/" element={<MainForm API_URL={API_URL} />} />
         <Route path="/listar" element={<ListarPagina />} />
       </Routes>
     </Router>

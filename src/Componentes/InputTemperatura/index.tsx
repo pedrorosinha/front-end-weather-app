@@ -48,39 +48,49 @@ const StyledInputNumber = styled(InputNumber)`
   color: #292929;
 `;
 
-const InputTemperatura = ({ onInputChange }) => {
-  const [temperaturaMin, setTemperaturaMin] = useState(null);
-  const [temperaturaMax, setTemperaturaMax] = useState(null);
-  const [error, setError] = useState(null);
+interface InputTemperaturaProps {
+  onInputChange?: (value: { min: number | null, max: number | null }) => void;
+}
 
-  const handleChangeMin = (value) => {
-    if (temperaturaMax !== null && value > temperaturaMax) {
+const InputTemperatura: React.FC<InputTemperaturaProps> = ({ onInputChange }) => {
+  const [temperaturaMin, setTemperaturaMin] = useState<number | null>(null);
+  const [temperaturaMax, setTemperaturaMax] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChangeMin = (value: string | number | null | undefined) => {
+    const min = typeof value === 'string' ? parseFloat(value) : value as number | null;
+    
+    if (temperaturaMax !== null && min !== null && min > temperaturaMax) {
       setError("A temperatura mínima não pode ser maior que a máxima.");
     } else {
       setError(null);
     }
-    setTemperaturaMin(value);
-    onInputChange({ min: value, max: temperaturaMax });
+    
+    setTemperaturaMin(min);
+    if (onInputChange) {
+      onInputChange({ min, max: temperaturaMax });
+    }
   };
 
-  const handleChangeMax = (value) => {
-    if (temperaturaMin !== null && value < temperaturaMin) {
+  const handleChangeMax = (value: string | number | null | undefined) => {
+    const max = typeof value === 'string' ? parseFloat(value) : value as number | null;
+    
+    if (temperaturaMin !== null && max !== null && max < temperaturaMin) {
       setError("A temperatura máxima não pode ser menor que a mínima.");
     } else {
       setError(null);
     }
-    setTemperaturaMax(value);
-    onInputChange({ min: temperaturaMin, max: value });
+    
+    setTemperaturaMax(max);
+    if (onInputChange) {
+      onInputChange({ min: temperaturaMin, max });
+    }
   };
 
   const validateField = () => {
     return (
       temperaturaMin !== null &&
-      temperaturaMin !== undefined &&
-      temperaturaMin !== '' &&
-      temperaturaMax !== null &&
-      temperaturaMax !== undefined &&
-      temperaturaMax !== ''
+      temperaturaMax !== null
     );
   };
 
@@ -95,7 +105,7 @@ const InputTemperatura = ({ onInputChange }) => {
             onChange={handleChangeMin}
             placeholder="Mín"
             formatter={(value) => `${value}ºC`}
-            parser={(value) => value?.replace('ºC', '')}
+            parser={(value) => value ? value.replace('ºC', '') : ''}
             data-testid="input-temperatura-min"
           />
         </InputWrapper>
@@ -106,7 +116,7 @@ const InputTemperatura = ({ onInputChange }) => {
             onChange={handleChangeMax}
             placeholder="Máx"
             formatter={(value) => `${value}ºC`}
-            parser={(value) => value?.replace('ºC', '')}
+            parser={(value) => value ? value.replace('ºC', '') : ''}
             data-testid="input-temperatura-max"
           />
         </InputWrapper>

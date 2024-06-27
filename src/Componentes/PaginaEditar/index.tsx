@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'antd';
 import axios from 'axios';
@@ -14,6 +14,21 @@ import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
 import ModalErro from '../CenarioErro';
 
+interface Props {
+  record: {
+    id: number;
+    temperaturaMinima: number;
+    temperaturaMaxima: number;
+    turno: 'MANHA' | 'TARDE' | 'NOITE';
+    data: string;
+    clima: string;
+    cidade: string;
+    precipitacao: number;
+    umidade: number;
+    velocidadeVento: number;
+  };
+}
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,46 +43,50 @@ const CustomCol = styled(Col)`
   }
 `;
 
-const EditarFormulario = ({ record }) => {
-  const API_URL = process.env.REACT_APP_API_URL;
+const EditarFormulario: React.FC<Props> = ({ record }) => {
+  const API_URL = process.env.REACT_APP_API_URL || '';
 
-  const [temperatura, setTemperatura] = useState({
+  const [temperatura, setTemperatura] = useState<{ min: number; max: number }>({
     min: record.temperaturaMinima,
     max: record.temperaturaMaxima,
   });
-  const [showModalSucesso, setModalSucesso] = useState(false);
-  const [showModalErro, setModalErro] = useState(false);
-  const [selectedTurno, setSelectedTurno] = useState(record.turno);
-  const [selectedDate, setSelectedDate] = useState(record.data);
-  const [selectedClima, setSelectedClima] = useState(record.clima);
-  const [selectedBusca, setSelectedBusca] = useState(record.cidade);
-  const [dadosMeteorologicos, setDadosMeteorologicos] = useState({
+  const [showModalSucesso, setModalSucesso] = useState<boolean>(false);
+  const [showModalErro, setModalErro] = useState<boolean>(false);
+  const [selectedTurno, setSelectedTurno] = useState<'MANHA' | 'TARDE' | 'NOITE'>(record.turno);
+  const [selectedDate, setSelectedDate] = useState<string>(record.data);
+  const [selectedClima, setSelectedClima] = useState<string>(record.clima);
+  const [selectedBusca, setSelectedBusca] = useState<string>(record.cidade);
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{
+    precipitacao: number;
+    umidade: number;
+    velocidadeVento: number;
+  }>({
     precipitacao: record.precipitacao,
     umidade: record.umidade,
     velocidadeVento: record.velocidadeVento,
   });
 
-  const handleTemperaturaChange = (value) => {
+  const handleTemperaturaChange = (value: { min: number; max: number }) => {
     setTemperatura(value);
   };
 
-  const handleTurnoChange = (turno) => {
+  const handleTurnoChange = (turno: 'MANHA' | 'TARDE' | 'NOITE') => {
     setSelectedTurno(turno);
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: string) => {
     setSelectedDate(date);
   };
 
-  const handleClimaChange = (clima) => {
+  const handleClimaChange = (clima: string) => {
     setSelectedClima(clima);
   };
 
-  const handleBuscaChange = (busca) => {
+  const handleBuscaChange = (busca: string) => {
     setSelectedBusca(busca);
   };
 
-  const handleDadosMeteorologicosChange = (data) => {
+  const handleDadosMeteorologicosChange = (data: { precipitacao?: number; umidade?: number; velocidadeVento?: number }) => {
     setDadosMeteorologicos({
       ...dadosMeteorologicos,
       ...data,
@@ -76,8 +95,8 @@ const EditarFormulario = ({ record }) => {
 
   const validateFields = () => {
     return (
-      temperatura.min !== '' &&
-      temperatura.max !== '' &&
+      temperatura.min !== undefined &&
+      temperatura.max !== undefined &&
       selectedTurno !== null &&
       selectedDate !== null &&
       selectedClima !== null &&
@@ -142,7 +161,10 @@ const EditarFormulario = ({ record }) => {
           />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputData onInputChange={handleDateChange} value={selectedDate} />
+          <InputData
+            onInputChange={handleDateChange}
+            value={selectedDate}
+          />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
           <InputTemperatura

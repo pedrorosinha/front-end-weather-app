@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Input } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from '@ant-design/icons';
 
-const InputContainer = styled.div`
+interface InputBuscaProps {
+  marginLeft?: string;
+  marginTop?: string;
+  onInputChange?: (value: string) => void;
+  onSearch?: (value: string) => void;
+}
+
+const InputContainer = styled.div<{ marginLeft?: string; marginTop?: string; }>`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;
@@ -52,22 +59,22 @@ const StyledSearchIcon = styled(SearchOutlined)`
   padding: 4px; 
 `;
 
-const InputBusca = ({ marginLeft, marginTop, onInputChange, onSearch }) => {
-  const [cidade, setCidade] = useState("");
-  const [cidadeValida, setCidadeValida] = useState(false);
+const InputBusca: React.FC<InputBuscaProps> = ({ marginLeft, marginTop, onInputChange, onSearch }) => {
+  const [cidade, setCidade] = useState<string>("");
+  const [cidadeValida, setCidadeValida] = useState<boolean>(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setCidade(value);
     setCidadeValida(value.trim() !== ""); 
 
-    if (typeof onInputChange === 'function') {
+    if (onInputChange) {
       onInputChange(value);
     }
   };
   
   const handleSearch = () => {
-    if (cidadeValida && typeof onSearch === 'function') {
+    if (cidadeValida && onSearch) {
       onSearch(cidade);
     }
   };

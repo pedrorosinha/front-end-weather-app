@@ -42,7 +42,12 @@ const StyledCancelButton = styled(Button)`
   }
 `;
 
-const Botoes = ({ onSave, onCancel }) => {
+interface BotoesProps {
+  onSave: () => void;
+  onCancel: () => void;
+}
+
+const Botoes: React.FC<BotoesProps> = ({ onSave, onCancel }) => {
   const handleClickSalvar = () => {
     onSave();
   };
@@ -56,7 +61,7 @@ const Botoes = ({ onSave, onCancel }) => {
       <StyledSaveButton 
         onClick={handleClickSalvar}
         data-testid="botao-salvar"
-        >Salvar</StyledSaveButton>
+      >Salvar</StyledSaveButton>
     </ButtonContainer>
   );
 };

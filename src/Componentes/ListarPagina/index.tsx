@@ -8,6 +8,7 @@ import InputBusca from '../InputBusca';
 import Titulo from '../Titulo';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import EditarFormulario from '../PaginaEditar';
+import { ColumnType, ExpandableConfig } from 'antd/es/table/interface';
 
 const StyledTable = styled(Table)`
   .ant-table {
@@ -28,13 +29,26 @@ const StyledTable = styled(Table)`
   }
 `;
 
-const ListarPagina = () => {
-  const [dadosMeteorologicos, setDadosMeteorologicos] = useState([]);
-  const [cidadeSelecionada, setCidadeSelecionada] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [recordToDelete, setRecordToDelete] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [editRecord, setEditRecord] = useState(null);
+interface DadosMeteorologicos {
+  id: number;
+  data: string;
+  cidade: string;
+  temperaturaMinima: number;
+  temperaturaMaxima: number;
+  clima: string;
+  turno: 'MANHA' | 'TARDE' | 'NOITE';
+  precipitacao: number;
+  umidade: number;
+  velocidadeVento: number;
+}
+
+const ListarPagina: React.FC = () => {
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState<DadosMeteorologicos[]>([]);
+  const [cidadeSelecionada, setCidadeSelecionada] = useState<string>('');
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [recordToDelete, setRecordToDelete] = useState<DadosMeteorologicos | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [editRecord, setEditRecord] = useState<DadosMeteorologicos | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +58,7 @@ const ListarPagina = () => {
           ? `http://localhost:8080/tempo/previsao/todasPorCidade?cidade=${cidadeSelecionada}`
           : 'http://localhost:8080/tempo/previsao/todas';
 
-        const response = await axios.get(url);
+        const response = await axios.get<DadosMeteorologicos[]>(url);
         const data = response.data;
 
         if (Array.isArray(data)) {
@@ -60,7 +74,7 @@ const ListarPagina = () => {
     buscarDadosMeteorologicos();
   }, [cidadeSelecionada]);
 
-  const renderTags = (turno) => {
+  const renderTags = (turno: 'MANHA' | 'TARDE' | 'NOITE') => {
     let color;
     let backgroundColor;
     switch (turno) {
@@ -87,17 +101,19 @@ const ListarPagina = () => {
     );
   };
 
-  const handleEdit = (record) => {
+  const handleEdit = (record: DadosMeteorologicos) => {
     setEditRecord(record);
   };
 
-  const showDeleteModal = (record) => {
+  const showDeleteModal = (record: DadosMeteorologicos) => {
     setRecordToDelete(record);
     setIsModalVisible(true);
   };
 
   const handleDelete = async () => {
     try {
+      if (!recordToDelete) return;
+
       await axios.delete(`http://localhost:8080/tempo/previsao/${recordToDelete.id}`);
       message.success('Registro excluído com sucesso');
       setDadosMeteorologicos((prevData) => prevData.filter((item) => item.id !== recordToDelete.id));
@@ -114,36 +130,22 @@ const ListarPagina = () => {
     setRecordToDelete(null);
   };
 
-  const columns = [
+  const columns: ColumnType<DadosMeteorologicos>[] = [
     { title: 'Data', dataIndex: 'data', key: 'data' },
-    {
-      title: 'Cidade',
-      dataIndex: 'cidade',
-      key: 'cidade',
-    },
-    {
-      title: 'Temperatura Mínima',
-      dataIndex: 'temperaturaMinima',
-      key: 'temperaturaMinima',
-      render: (texto) => `${texto} ºC`,
-    },
-    {
-      title: 'Temperatura Máxima',
-      dataIndex: 'temperaturaMaxima',
-      key: 'temperaturaMaxima',
-      render: (texto) => `${texto} ºC`,
-    },
+    { title: 'Cidade', dataIndex: 'cidade', key: 'cidade' },
+    { title: 'Temperatura Mínima', dataIndex: 'temperaturaMinima', key: 'temperaturaMinima' },
+    { title: 'Temperatura Máxima', dataIndex: 'temperaturaMaxima', key: 'temperaturaMaxima' },
     { title: 'Clima', dataIndex: 'clima', key: 'clima' },
     {
       title: 'Turno',
       dataIndex: 'turno',
       key: 'turno',
-      render: (turno) => renderTags(turno),
+      render: (turno: 'MANHA' | 'TARDE' | 'NOITE') => renderTags(turno),
     },
     {
       title: 'Ações',
       key: 'action',
-      render: (_, record) => (
+      render: (_: any, record: DadosMeteorologicos) => (
         <Space size="middle">
           <a onClick={() => handleEdit(record)} style={{ color: '#141ABA' }}>
             Editar
@@ -156,8 +158,8 @@ const ListarPagina = () => {
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record) => (
+  const expandable: ExpandableConfig<DadosMeteorologicos> = {
+    expandedRowRender: (record: DadosMeteorologicos) => (
       <table style={{ width: '350px' }}>
         <thead>
           <tr>
@@ -183,11 +185,11 @@ const ListarPagina = () => {
       ),
   };
 
-  const handleSearch = (cidade) => {
+  const handleSearch = (cidade: string) => {
     setCidadeSelecionada(cidade);
   };
 
-  const handlePageChange = (page, pageSize) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -225,7 +227,7 @@ const ListarPagina = () => {
         />
       )}
       <Modal
-        open={isModalVisible}
+        visible={isModalVisible}
         onOk={handleDelete}
         onCancel={handleCancel}
         okText="Excluir"

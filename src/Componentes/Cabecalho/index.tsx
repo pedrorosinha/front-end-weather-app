@@ -35,7 +35,7 @@ const Logo = styled.img`
     margin-left: 120px;
 `;
 
-const Cabecalho = () => {
+const Cabecalho: React.FC = () => {
     return (
         <CabecalhoEstilizado>
             <Logo src={LogoDb} alt="Logo" />

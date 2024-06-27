@@ -22,12 +22,16 @@ const Subtitulo = styled.div`
   color: #292929;
 `;
 
+interface TurnoButtonProps {
+  isactive: boolean;
+}
+
 const ButtonGroup = styled.div`
   display: flex;
   gap: 8px;
 `;
 
-const TurnoButton = styled.button`
+const TurnoButton = styled.button<TurnoButtonProps>`
   width: 77px;
   height: 40px;
   font-family: 'TTSupermolot-Regular';
@@ -49,12 +53,18 @@ const TurnoButton = styled.button`
   }
 `;
 
-const InputTags = ({ onInputChange }) => {
-  const [activeTurno, setActiveTurno] = useState(null);
+interface InputTagsProps {
+  onInputChange?: (turno: string) => void;
+}
 
-  const handleTurnoClick = (turno) => {
+const InputTags: React.FC<InputTagsProps> = ({ onInputChange }) => {
+  const [activeTurno, setActiveTurno] = useState<string | null>(null);
+
+  const handleTurnoClick = (turno: string) => {
     setActiveTurno(turno);
-    onInputChange(turno);
+    if (onInputChange) {
+      onInputChange(turno);
+    }
   };
 
   const validateField = () => {
@@ -68,21 +78,21 @@ const InputTags = ({ onInputChange }) => {
       <ButtonGroup>
         <TurnoButton
           data-testid="button-manha"
-          isactive={activeTurno === "MANHA" ? "true" : "false"}
+          isactive={activeTurno === "MANHA"}
           onClick={() => handleTurnoClick("MANHA")}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
           data-testid="button-tarde"
-          isactive={activeTurno === "TARDE" ? "true" : "false"}
+          isactive={activeTurno === "TARDE"}
           onClick={() => handleTurnoClick("TARDE")}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
           data-testid="button-noite"
-          isactive={activeTurno === "NOITE" ? "true" : "false"}
+          isactive={activeTurno === "NOITE"}
           onClick={() => handleTurnoClick("NOITE")}
         >
           Noite
