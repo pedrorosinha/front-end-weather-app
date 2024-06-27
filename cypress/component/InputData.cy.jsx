@@ -21,6 +21,6 @@ describe('Teste do componente de InputData', () => {
   it('Deve mostrar uma mensagem de erro se a data não for selecionada', () => {
     mount(<InputData onInputChange={cy.stub()} />);
     cy.get('.ant-picker-input input').focus().blur();
-    cy.contains('Selecione uma data.').should('be.visible');
+    cy.contains('Informe a data.').should('be.visible');
   });
 });

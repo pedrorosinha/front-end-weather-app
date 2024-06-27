@@ -62,7 +62,8 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
     >
       <SuccessModalContent>
         {isFormComplete ? (
-          <SuccessMessage>
+          <SuccessMessage 
+          data-testid="modal-sucesso">
             Dados salvos com sucesso!
           </SuccessMessage>
         ) : (

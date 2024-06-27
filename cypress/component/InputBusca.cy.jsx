@@ -5,7 +5,7 @@ import InputBusca from '../../src/Componentes/InputBusca';
 describe('Teste do componente de InputBusca', () => {
   it('Deve renderizar corretamente', () => {
     mount(<InputBusca />);
-    cy.get('div').contains('Buscar a cidade'); 
+    cy.get('div').contains('Buscar Cidade'); 
     cy.get('div').contains('Cidade*');
     cy.get('input').should('have.attr', 'placeholder', 'Busque por uma cidade');
   });

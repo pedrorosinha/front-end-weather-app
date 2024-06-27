@@ -62,23 +62,26 @@ const InputTags = ({ onInputChange }) => {
   };
 
   return (
-    <Container>
+    <Container data-testid="input-tags">
       <Titulo>Informe o Turno</Titulo>      
       <Subtitulo>Turno*</Subtitulo>
       <ButtonGroup>
         <TurnoButton
+          data-testid="button-manha"
           isactive={activeTurno === "MANHA" ? "true" : "false"}
           onClick={() => handleTurnoClick("MANHA")}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
+          data-testid="button-tarde"
           isactive={activeTurno === "TARDE" ? "true" : "false"}
           onClick={() => handleTurnoClick("TARDE")}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
+          data-testid="button-noite"
           isactive={activeTurno === "NOITE" ? "true" : "false"}
           onClick={() => handleTurnoClick("NOITE")}
         >

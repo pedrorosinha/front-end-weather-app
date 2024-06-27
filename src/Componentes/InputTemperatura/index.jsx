@@ -96,6 +96,7 @@ const InputTemperatura = ({ onInputChange }) => {
             placeholder="Mín"
             formatter={(value) => `${value}ºC`}
             parser={(value) => value?.replace('ºC', '')}
+            data-testid="input-temperatura-min"
           />
         </InputWrapper>
         <InputWrapper>
@@ -106,6 +107,7 @@ const InputTemperatura = ({ onInputChange }) => {
             placeholder="Máx"
             formatter={(value) => `${value}ºC`}
             parser={(value) => value?.replace('ºC', '')}
+            data-testid="input-temperatura-max"
           />
         </InputWrapper>
       </InputGroup>

@@ -62,6 +62,7 @@ const InputData = ({ onInputChange }) => {
         format="DD/MM/YYYY"
         locale={locale}
         onChange={handleDateChange}
+        data-testid="input-data"
       />
       {!validateField() && <div style={{ color: 'red', marginTop: '8px' }}>Informe a data.</div>}
     </Container>

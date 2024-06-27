@@ -49,8 +49,14 @@ const Botoes = ({ onSave, onCancel }) => {
 
   return (
     <ButtonContainer>
-      <StyledCancelButton onClick={onCancel}>Cancelar</StyledCancelButton>
-      <StyledSaveButton onClick={handleClickSalvar}>Salvar</StyledSaveButton>
+      <StyledCancelButton 
+        onClick={onCancel}
+        data-testid="botao-cancelar"
+      >Cancelar</StyledCancelButton>
+      <StyledSaveButton 
+        onClick={handleClickSalvar}
+        data-testid="botao-salvar"
+        >Salvar</StyledSaveButton>
     </ButtonContainer>
   );
 };

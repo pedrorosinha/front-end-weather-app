@@ -70,14 +70,31 @@ const InputTempo = ({ onInputChange }) => {
       <Subtitulo>Clima*</Subtitulo>
       <StyledSelect
         defaultValue="Selecione"
+        placeholder="Selecione"
         onChange={handleSelectChange}
         value={clima}
+        data-testid="input-clima"
       >
-        <CustomOption value="CHUVOSO">Chuvoso</CustomOption>
-        <CustomOption value="ENSOLARADO">Ensolarado</CustomOption>
-        <CustomOption value="GAROANDO">Garoando</CustomOption>
-        <CustomOption value="NEVANDO">Nevando</CustomOption>
-        <CustomOption value="NUBLADO">Nublado</CustomOption>
+        <CustomOption 
+          value="CHUVOSO"
+          data-testid="option-chuvoso"
+        >Chuvoso</CustomOption>
+        <CustomOption 
+          value="ENSOLARADO"
+          data-testid="option-ensolarado"
+        >Ensolarado</CustomOption>
+        <CustomOption 
+          value="GAROANDO"
+          data-testid="option-garoando"
+        >Garoando</CustomOption>
+        <CustomOption 
+          value="NEVANDO"
+          data-testid="option-nevando"
+        >Nevando</CustomOption>
+        <CustomOption 
+        value="NUBLADO"
+        data-testid="option-nublado"
+        >Nublado</CustomOption>
       </StyledSelect>
       {clima === null && (
         <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
