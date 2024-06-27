@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
-import {CloseOutlined} from '@ant-design/icons'
+import { CloseOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 
 const CustomModal = styled(Modal)`
@@ -39,9 +39,22 @@ const ErrorMessageText = styled.div`
   color: #fafafa;
 `;
 
-const CenarioErro = ({ isOpen, onClose }) => {
+interface CenarioErroProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const CenarioErro: React.FC<CenarioErroProps> = ({ isOpen, onClose }) => {
   return (
-    <CustomModal open={isOpen} onCancel={onClose} closeIcon={<CustomCloseIcon />} footer={null} width={755} centered maskClosable={false}>
+    <CustomModal 
+      open={isOpen} 
+      onCancel={onClose} 
+      closeIcon={<CustomCloseIcon />} 
+      footer={null} 
+      width={755} 
+      centered 
+      maskClosable={false}
+    >
       <ErrorMessage>
         <ErrorMessageText>
           Por favor, preencha todos os campos <br /> obrigatórios antes de salvar.

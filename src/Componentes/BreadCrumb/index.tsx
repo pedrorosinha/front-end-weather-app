@@ -15,8 +15,13 @@ const BreadcrumbContainer = styled.div`
     }
 `;
 
-const CustomBreadcrumb = () => {
-    const breadcrumbItems = [
+interface BreadcrumbItem {
+    title: string;
+    style: React.CSSProperties;
+}
+
+const CustomBreadcrumb: React.FC = () => {
+    const breadcrumbItems: BreadcrumbItem[] = [
         {
             title: 'Inicio',
             style: {
@@ -43,15 +48,15 @@ const CustomBreadcrumb = () => {
         <BreadcrumbContainer>
             <AntdBreadcrumb 
                 items={breadcrumbItems}
-                itemRender={(item) => {
-                    const style = item.style;
+                itemRender={(route, _, routes) => {
+                    const item = route as BreadcrumbItem;
                     return (
-                        <span style={style}>{item.title}</span>
+                        <span style={item.style}>{item.title}</span>
                     );
                 }}
             />
         </BreadcrumbContainer>
-    )
-}
+    );
+};
 
 export default CustomBreadcrumb;

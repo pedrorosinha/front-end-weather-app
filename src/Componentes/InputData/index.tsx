@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { DatePicker } from "antd";
 import locale from "antd/es/date-picker/locale/pt_BR";
+import { PickerProps } from "antd/es/date-picker/generatePicker";
 
 const Container = styled.div`
   display: grid;
@@ -41,16 +42,22 @@ const StyledDatePicker = styled(DatePicker)`
   }
 `;
 
-const InputData = ({ onInputChange }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+interface InputDataProps {
+  onInputChange?: (value: Date | null) => void;
+}
 
-  const handleDateChange = (date, dateString) => {
-    setSelectedDate(dateString);
-    onInputChange(dateString);
+const InputData: React.FC<InputDataProps> = ({ onInputChange }) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleDateChange: PickerProps<any>['onChange'] = (date, dateString) => {
+    setSelectedDate(date ? date.toDate() : null);
+    if (onInputChange) {
+      onInputChange(date ? date.toDate() : null);
+    }
   };
 
   const validateField = () => {
-    return selectedDate !== null && selectedDate !== undefined && selectedDate !== '';
+    return selectedDate !== null;
   };
 
   return (

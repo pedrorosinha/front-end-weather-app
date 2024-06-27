@@ -4,6 +4,14 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
+enum Clima {
+  CHUVOSO = "CHUVOSO",
+  ENSOLARADO = "ENSOLARADO",
+  GAROANDO = "GAROANDO",
+  NEVANDO = "NEVANDO",
+  NUBLADO = "NUBLADO",
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,13 +64,19 @@ const CustomOption = styled(Option)`
   }
 `;
 
-const InputTempo = ({ onInputChange }) => {
-  const [clima, setClima] = useState(null);
+interface InputTempoProps {
+  onInputChange: (value: Clima | null) => void;
+}
 
-  const handleSelectChange = (value) => {
-    setClima(value);
-    onInputChange(value);
-  };
+const InputTempo: React.FC<InputTempoProps> = ({ onInputChange }) => {
+  const [clima, setClima] = useState<Clima | null>(null);
+
+  const handleSelectChange = (value: unknown, option: any) => {
+    if (Object.values(Clima).includes(value as Clima)) {
+      setClima(value as Clima);
+      onInputChange(value as Clima);
+    }
+ };
 
   return (
     <Container>
@@ -75,30 +89,13 @@ const InputTempo = ({ onInputChange }) => {
         value={clima}
         data-testid="input-clima"
       >
-        <CustomOption 
-          value="CHUVOSO"
-          data-testid="option-chuvoso"
-        >Chuvoso</CustomOption>
-        <CustomOption 
-          value="ENSOLARADO"
-          data-testid="option-ensolarado"
-        >Ensolarado</CustomOption>
-        <CustomOption 
-          value="GAROANDO"
-          data-testid="option-garoando"
-        >Garoando</CustomOption>
-        <CustomOption 
-          value="NEVANDO"
-          data-testid="option-nevando"
-        >Nevando</CustomOption>
-        <CustomOption 
-        value="NUBLADO"
-        data-testid="option-nublado"
-        >Nublado</CustomOption>
+        {Object.values(Clima).map((climaOption) => (
+          <CustomOption key={climaOption} value={climaOption} data-testid={`option-${climaOption.toLowerCase()}`}>
+            {climaOption}
+          </CustomOption>
+        ))}
       </StyledSelect>
-      {clima === null && (
-        <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>
-      )}
+      {clima === null && <div style={{ color: 'red' }}>Por favor, selecione um clima.</div>}
     </Container>
   );
 };

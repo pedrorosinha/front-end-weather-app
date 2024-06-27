@@ -36,7 +36,13 @@ const SuccessMessage = styled.div`
   color: #fafafa;
 `;
 
-const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
+interface CenarioSucessoProps {
+  isOpen: boolean;
+  onClose: () => void;
+  validateFields: () => boolean;
+}
+
+const CenarioSucesso: React.FC<CenarioSucessoProps> = ({ isOpen, onClose, validateFields }) => {
   const [isFormComplete, setIsFormComplete] = useState(false);
 
   const validateFormFields = () => {
@@ -52,7 +58,7 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
 
   return (
     <CustomModal
-      visible={isOpen} 
+      visible={isOpen}
       onCancel={onClose}
       closeIcon={<CustomCloseIcon />}
       aria-labelledby="modal-title"
@@ -62,8 +68,7 @@ const CenarioSucesso = ({ isOpen, onClose, validateFields }) => {
     >
       <SuccessModalContent>
         {isFormComplete ? (
-          <SuccessMessage 
-          data-testid="modal-sucesso">
+          <SuccessMessage data-testid="modal-sucesso">
             Dados salvos com sucesso!
           </SuccessMessage>
         ) : (

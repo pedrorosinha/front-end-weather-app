@@ -1,6 +1,11 @@
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const Container = styled.div`
+interface ContainerProps {
+  marginleft?: string;
+}
+
+const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -20,9 +25,14 @@ const Texto = styled.span`
   color: #292929;
 `;
 
-const Titulo = ({ texto = "Cadastro de Dados Meteorológicos", marginleft = "121px" }) => {
+interface TituloProps {
+  texto?: string;
+  marginLeft?: string;
+}
+
+const Titulo: React.FC<TituloProps> = ({ texto = 'Cadastro de Dados Meteorológicos', marginLeft = '121px' }) => {
   return (
-    <Container marginleft={marginleft}>
+    <Container marginleft={marginLeft}>
       <Texto>{texto}</Texto>
     </Container>
   );

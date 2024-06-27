@@ -12,8 +12,8 @@ import InputData from '../InputData';
 import InputDadosMetereologicos from '../InputDadosMetereologicos';
 import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
-import Titulo from '../Titulo';
 import ModalErro from '../CenarioErro';
+import Titulo from '../Titulo';
 
 const PageContainer = styled.div`
   display: flex;
@@ -29,53 +29,55 @@ const CustomCol = styled(Col)`
   }
 `;
 
-const MainForm = () => {
-  const API_URL = process.env.REACT_APP_API_URL;
+export interface MainFormProps {
+  API_URL: string;
+}
 
-  const [temperatura, setTemperatura] = useState({min: null, max: null});
+const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
+  const [temperatura, setTemperatura] = useState<{ min: string | null; max: string | null }>({ min: null, max: null });
   const [showModalSucesso, setModalSucesso] = useState(false);
   const [showModalErro, setModalErro] = useState(false);
-  const [selectedTurno, setSelectedTurno] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedClima, setSelectedClima] = useState(null);
-  const [selectedBusca, setSelectedBusca] = useState(null);
-  const [dadosMeteorologicos, setDadosMeteorologicos] = useState({
+  const [selectedTurno, setSelectedTurno] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedClima, setSelectedClima] = useState<string | null>(null);
+  const [selectedBusca, setSelectedBusca] = useState<string | null>(null);
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{ precipitacao: string | null; umidade: string | null; velocidadeVento: string | null }>({
     precipitacao: null,
     umidade: null,
-    velocidadeVento: null
+    velocidadeVento: null,
   });
 
-  const handleTemperaturaChange = (value) => {
+  const handleTemperaturaChange = (value: { min: string | null; max: string | null }) => {
     setTemperatura(value);
   };
 
-  const handleTurnoChange = (turno) => {
+  const handleTurnoChange = (turno: string) => {
     setSelectedTurno(turno);
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
 
-  const handleClimaChange = (clima) => {
+  const handleClimaChange = (clima: string) => {
     setSelectedClima(clima);
   };
 
-  const handleBuscaChange = (busca) => {
+  const handleBuscaChange = (busca: string) => {
     setSelectedBusca(busca);
   };
 
-  const handleDadosMeteorologicosChange = (data) => {
-    setDadosMeteorologicos({
-      ...dadosMeteorologicos,
-      ...data
-    });
+  const handleDadosMeteorologicosChange = (data: { precipitacao: string | null; umidade: string | null; velocidadeVento: string | null }) => {
+    setDadosMeteorologicos((prevState) => ({
+      ...prevState,
+      ...data,
+    }));
   };
 
-  const validateFields = () => {
+  const validateFields = (): boolean => {
     return (
-      temperatura.min !== "" &&
-      temperatura.max !== "" &&
+      temperatura.min !== null &&
+      temperatura.max !== null &&
       selectedTurno !== null &&
       selectedDate !== null &&
       selectedClima !== null &&
@@ -110,7 +112,7 @@ const MainForm = () => {
         }
       } catch (error) {
         setModalErro(true);
-        console.log("Erro!", error);
+        console.log('Erro!', error);
       }
     } else {
       setModalErro(true);
@@ -122,7 +124,10 @@ const MainForm = () => {
       <GlobalStyles />
       <Breadcrumb />
       <Titulo />
-      <Row gutter={[16, 16]} style={{ marginTop: '32px', rowGap: '16px', maxWidth: '95%', marginLeft: '121px', marginRight: 'auto', justifyContent: 'center' }}>
+      <Row
+        gutter={[16, 16]}
+        style={{ marginTop: '32px', rowGap: '16px', maxWidth: '95%', marginLeft: '121px', marginRight: 'auto', justifyContent: 'center' }}
+      >
         <CustomCol xs={24} md={12} lg={12}>
           <InputBusca onInputChange={handleBuscaChange} style={{ marginTop: '40px', textAlign: 'center' }} />
         </CustomCol>
@@ -145,11 +150,7 @@ const MainForm = () => {
           <Botoes onSave={handleSalvar} onCancel={() => console.log('Cancelar')} />
         </Col>
       </Row>
-      <CenarioSucesso
-        isOpen={showModalSucesso}
-        onClose={() => setModalSucesso(false)}
-        validateFields={validateFields}
-      />
+      <CenarioSucesso isOpen={showModalSucesso} onClose={() => setModalSucesso(false)} validateFields={validateFields} />
       <ModalErro isOpen={showModalErro} onClose={() => setModalErro(false)} />
     </PageContainer>
   );
