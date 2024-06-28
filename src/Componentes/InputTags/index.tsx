@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+enum Turno {
+  MANHA = "MANHA",
+  TARDE = "TARDE",
+  NOITE = "NOITE",
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,13 +60,14 @@ const TurnoButton = styled.button<TurnoButtonProps>`
 `;
 
 interface InputTagsProps {
-  onInputChange?: (turno: string) => void;
+  value: Turno | null;
+  onInputChange?: (turno: Turno) => void;
 }
 
-const InputTags: React.FC<InputTagsProps> = ({ onInputChange }) => {
-  const [activeTurno, setActiveTurno] = useState<string | null>(null);
+const InputTags: React.FC<InputTagsProps> = ({ value, onInputChange }) => {
+  const [activeTurno, setActiveTurno] = useState<Turno | null>(value);
 
-  const handleTurnoClick = (turno: string) => {
+  const handleTurnoClick = (turno: Turno) => {
     setActiveTurno(turno);
     if (onInputChange) {
       onInputChange(turno);
@@ -73,27 +80,27 @@ const InputTags: React.FC<InputTagsProps> = ({ onInputChange }) => {
 
   return (
     <Container data-testid="input-tags">
-      <Titulo>Informe o Turno</Titulo>      
+      <Titulo>Informe o Turno</Titulo>
       <Subtitulo>Turno*</Subtitulo>
       <ButtonGroup>
         <TurnoButton
           data-testid="button-manha"
-          isactive={activeTurno === "MANHA"}
-          onClick={() => handleTurnoClick("MANHA")}
+          isactive={activeTurno === Turno.MANHA}
+          onClick={() => handleTurnoClick(Turno.MANHA)}
         >
           Manhã
         </TurnoButton>
         <TurnoButton
           data-testid="button-tarde"
-          isactive={activeTurno === "TARDE"}
-          onClick={() => handleTurnoClick("TARDE")}
+          isactive={activeTurno === Turno.TARDE}
+          onClick={() => handleTurnoClick(Turno.TARDE)}
         >
           Tarde
         </TurnoButton>
         <TurnoButton
           data-testid="button-noite"
-          isactive={activeTurno === "NOITE"}
-          onClick={() => handleTurnoClick("NOITE")}
+          isactive={activeTurno === Turno.NOITE}
+          onClick={() => handleTurnoClick(Turno.NOITE)}
         >
           Noite
         </TurnoButton>

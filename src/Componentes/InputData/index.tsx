@@ -43,7 +43,8 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 interface InputDataProps {
-  onInputChange?: (value: Date | null) => void;
+  value?: Date;
+  onInputChange?: (value: Date) => void;
 }
 
 const InputData: React.FC<InputDataProps> = ({ onInputChange }) => {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { InputNumber } from "antd";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { InputNumber } from 'antd';
 
 const Container = styled.div`
   display: flex;
@@ -49,23 +49,25 @@ const StyledInputNumber = styled(InputNumber)`
 `;
 
 interface InputTemperaturaProps {
+  value?: { min: number | null, max: number | null };
+  style?: React.CSSProperties;
   onInputChange?: (value: { min: number | null, max: number | null }) => void;
 }
 
-const InputTemperatura: React.FC<InputTemperaturaProps> = ({ onInputChange }) => {
-  const [temperaturaMin, setTemperaturaMin] = useState<number | null>(null);
-  const [temperaturaMax, setTemperaturaMax] = useState<number | null>(null);
+const InputTemperatura: React.FC<InputTemperaturaProps> = ({ value = { min: null, max: null }, onInputChange }) => {
+  const [temperaturaMin, setTemperaturaMin] = useState<number | null>(value.min);
+  const [temperaturaMax, setTemperaturaMax] = useState<number | null>(value.max);
   const [error, setError] = useState<string | null>(null);
 
   const handleChangeMin = (value: string | number | null | undefined) => {
     const min = typeof value === 'string' ? parseFloat(value) : value as number | null;
-    
+
     if (temperaturaMax !== null && min !== null && min > temperaturaMax) {
-      setError("A temperatura mínima não pode ser maior que a máxima.");
+      setError('A temperatura mínima não pode ser maior que a máxima.');
     } else {
       setError(null);
     }
-    
+
     setTemperaturaMin(min);
     if (onInputChange) {
       onInputChange({ min, max: temperaturaMax });
@@ -74,13 +76,13 @@ const InputTemperatura: React.FC<InputTemperaturaProps> = ({ onInputChange }) =>
 
   const handleChangeMax = (value: string | number | null | undefined) => {
     const max = typeof value === 'string' ? parseFloat(value) : value as number | null;
-    
+
     if (temperaturaMin !== null && max !== null && max < temperaturaMin) {
-      setError("A temperatura máxima não pode ser menor que a mínima.");
+      setError('A temperatura máxima não pode ser menor que a mínima.');
     } else {
       setError(null);
     }
-    
+
     setTemperaturaMax(max);
     if (onInputChange) {
       onInputChange({ min: temperaturaMin, max });
@@ -88,10 +90,7 @@ const InputTemperatura: React.FC<InputTemperaturaProps> = ({ onInputChange }) =>
   };
 
   const validateField = () => {
-    return (
-      temperaturaMin !== null &&
-      temperaturaMax !== null
-    );
+    return temperaturaMin !== null && temperaturaMax !== null;
   };
 
   return (

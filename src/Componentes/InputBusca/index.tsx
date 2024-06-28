@@ -6,6 +6,8 @@ import { SearchOutlined } from '@ant-design/icons';
 interface InputBuscaProps {
   marginLeft?: string;
   marginTop?: string;
+  value?: string;
+  style?: React.CSSProperties;
   onInputChange?: (value: string) => void;
   onSearch?: (value: string) => void;
 }

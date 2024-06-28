@@ -29,14 +29,28 @@ const StyledTable = styled(Table)`
   }
 `;
 
+enum Clima {
+  CHUVOSO = 'CHUVOSO',
+  ENSOLARADO = 'ENSOLARADO',
+  GAROANDO = 'GAROANDO',
+  NEVANDO = 'NEVANDO',
+  NUBLADO = 'NUBLADO',
+}
+
+enum Turno {
+  MANHA = 'MANHA',
+  TARDE = 'TARDE',
+  NOITE = 'NOITE',
+}
+
 interface DadosMeteorologicos {
   id: number;
   data: string;
   cidade: string;
   temperaturaMinima: number;
   temperaturaMaxima: number;
-  clima: string;
-  turno: 'MANHA' | 'TARDE' | 'NOITE';
+  clima: Clima;
+  turno: Turno;
   precipitacao: number;
   umidade: number;
   velocidadeVento: number;
@@ -74,19 +88,19 @@ const ListarPagina: React.FC = () => {
     buscarDadosMeteorologicos();
   }, [cidadeSelecionada]);
 
-  const renderTags = (turno: 'MANHA' | 'TARDE' | 'NOITE') => {
+  const renderTags = (turno: Turno) => {
     let color;
     let backgroundColor;
     switch (turno) {
-      case 'MANHA':
+      case Turno.MANHA:
         color = '#FAAD14';
         backgroundColor = '#FFFBE6';
         break;
-      case 'TARDE':
+      case Turno.TARDE:
         color = '#FA541C';
         backgroundColor = '#FFF2E8';
         break;
-      case 'NOITE':
+      case Turno.NOITE:
         color = '#722ED1';
         backgroundColor = '#F9F0FF';
         break;
@@ -96,13 +110,14 @@ const ListarPagina: React.FC = () => {
     }
     return (
       <Tag key={turno} style={{ color: color, backgroundColor: backgroundColor }}>
-        {turno.toUpperCase()}
+        {turno}
       </Tag>
     );
-  };
+  };  
 
   const handleEdit = (record: DadosMeteorologicos) => {
     setEditRecord(record);
+    setIsModalVisible(true);
   };
 
   const showDeleteModal = (record: DadosMeteorologicos) => {
@@ -128,6 +143,7 @@ const ListarPagina: React.FC = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
     setRecordToDelete(null);
+    setEditRecord(null);
   };
 
   const columns: ColumnType<DadosMeteorologicos>[] = [
@@ -140,7 +156,7 @@ const ListarPagina: React.FC = () => {
       title: 'Turno',
       dataIndex: 'turno',
       key: 'turno',
-      render: (turno: 'MANHA' | 'TARDE' | 'NOITE') => renderTags(turno),
+      render: (turno: Turno) => renderTags(turno),
     },
     {
       title: 'Ações',
@@ -198,44 +214,38 @@ const ListarPagina: React.FC = () => {
       <GlobalStyles />
       <Titulo texto="Lista de Dados Meteorológicos" marginLeft="124px" />
       <InputBusca marginLeft="124px" marginTop="40px" onSearch={handleSearch} />
-      {editRecord ? (
-        <EditarFormulario record={editRecord} />
-      ) : (
-        <StyledTable
-          dataSource={dadosMeteorologicos}
-          columns={columns}
-          rowKey="id"
-          pagination={{
-            pageSize: 10,
-            total: dadosMeteorologicos.length,
-            pageSizeOptions: ['10', '20', '30', '40', '50'],
-            current: currentPage,
-            onChange: handlePageChange,
-            showQuickJumper: true,
-            showSizeChanger: true,
-            position: ['bottomCenter'],
-          }}
-          expandable={expandable}
-          locale={{
-            emptyText: (
-              <span style={{ fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000' }}>
-                Não há dados cadastrados
-              </span>
-            ),
-          }}
-          scroll={{ x: 'max-content' }}
-        />
-      )}
+      <StyledTable
+        dataSource={dadosMeteorologicos}
+        columns={columns}
+        rowKey="id"
+        pagination={{
+          pageSize: 10,
+          total: dadosMeteorologicos.length,
+          pageSizeOptions: ['10', '20', '30', '40', '50'],
+          current: currentPage,
+          onChange: handlePageChange,
+          showQuickJumper: true,
+          showSizeChanger: true,
+          position: ['bottomCenter'],
+        }}
+        expandable={expandable}
+        locale={{
+          emptyText: (
+            <span style={{ fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000' }}>
+              Não há dados cadastrados
+            </span>
+          ),
+        }}
+        scroll={{ x: 'max-content' }}
+      />
       <Modal
+        title="Editar Dados Meteorológicos"
         visible={isModalVisible}
-        onOk={handleDelete}
         onCancel={handleCancel}
-        okText="Excluir"
-        cancelText="Cancelar"
-        cancelButtonProps={{ style: { color: '#141ABA', fontFamily: 'TT-Supermolot-Regular' } }}
-        okButtonProps={{ style: { backgroundColor: '#EF4C56', fontFamily: 'TT-Supermolot-Regular' } }}
+        footer={null}
+        destroyOnClose
       >
-        <p style={{ fontFamily: 'TT-Supermolot-Regular' }}>Você tem certeza que deseja excluir essa informação?</p>
+        {editRecord && <EditarFormulario record={editRecord} />}
       </Modal>
     </>
   );

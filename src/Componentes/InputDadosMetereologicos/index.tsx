@@ -46,6 +46,7 @@ const CustomInputNumber = styled(InputNumber)<{ isvalid: string }>`
 `;
 
 interface InputDadosMetereologicosProps {
+  value?: { precipitacao: number | null; umidade: number | null; velocidadeVento: number | null };
   onInputChange?: (data: { precipitacao: number | null; umidade: number | null; velocidadeVento: number | null }) => void;
 }
 

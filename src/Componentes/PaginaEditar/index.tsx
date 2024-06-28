@@ -14,14 +14,28 @@ import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
 import ModalErro from '../CenarioErro';
 
+enum Clima {
+  CHUVOSO = 'CHUVOSO',
+  ENSOLARADO = 'ENSOLARADO',
+  GAROANDO = 'GAROANDO',
+  NEVANDO = 'NEVANDO',
+  NUBLADO = 'NUBLADO',
+}
+
+enum Turno {
+  MANHA = 'MANHA',
+  TARDE = 'TARDE',
+  NOITE = 'NOITE',
+}
+
 interface Props {
   record: {
     id: number;
     temperaturaMinima: number;
     temperaturaMaxima: number;
-    turno: 'MANHA' | 'TARDE' | 'NOITE';
-    data: string;
-    clima: string;
+    turno: Turno;
+    data: Date;
+    clima: Clima;
     cidade: string;
     precipitacao: number;
     umidade: number;
@@ -46,15 +60,15 @@ const CustomCol = styled(Col)`
 const EditarFormulario: React.FC<Props> = ({ record }) => {
   const API_URL = process.env.REACT_APP_API_URL || '';
 
-  const [temperatura, setTemperatura] = useState<{ min: number; max: number }>({
+  const [temperatura, setTemperatura] = useState<{ min: number | null; max: number | null }>({
     min: record.temperaturaMinima,
     max: record.temperaturaMaxima,
   });
   const [showModalSucesso, setModalSucesso] = useState<boolean>(false);
   const [showModalErro, setModalErro] = useState<boolean>(false);
-  const [selectedTurno, setSelectedTurno] = useState<'MANHA' | 'TARDE' | 'NOITE'>(record.turno);
-  const [selectedDate, setSelectedDate] = useState<string>(record.data);
-  const [selectedClima, setSelectedClima] = useState<string>(record.clima);
+  const [selectedTurno, setSelectedTurno] = useState<Turno>(record.turno);
+  const [selectedDate, setSelectedDate] = useState<Date>(record.data);
+  const [selectedClima, setSelectedClima] = useState<Clima>(record.clima);
   const [selectedBusca, setSelectedBusca] = useState<string>(record.cidade);
   const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{
     precipitacao: number;
@@ -66,19 +80,19 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
     velocidadeVento: record.velocidadeVento,
   });
 
-  const handleTemperaturaChange = (value: { min: number; max: number }) => {
+  const handleTemperaturaChange = (value: { min: number | null; max: number | null }) => {
     setTemperatura(value);
   };
 
-  const handleTurnoChange = (turno: 'MANHA' | 'TARDE' | 'NOITE') => {
+  const handleTurnoChange = (turno: Turno) => {
     setSelectedTurno(turno);
   };
 
-  const handleDateChange = (date: string) => {
+  const handleDateChange = (date: Date) => {
     setSelectedDate(date);
   };
 
-  const handleClimaChange = (clima: string) => {
+  const handleClimaChange = (clima: Clima) => {
     setSelectedClima(clima);
   };
 
@@ -95,8 +109,8 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
 
   const validateFields = () => {
     return (
-      temperatura.min !== undefined &&
-      temperatura.max !== undefined &&
+      temperatura.min !== null &&
+      temperatura.max !== null &&
       selectedTurno !== null &&
       selectedDate !== null &&
       selectedClima !== null &&
@@ -114,8 +128,8 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
           cidade: selectedBusca,
           turno: selectedTurno,
           clima: selectedClima,
-          temperaturaMinima: temperatura.min,
-          temperaturaMaxima: temperatura.max,
+          temperaturaMinima: temperatura.min!,
+          temperaturaMaxima: temperatura.max!,
           precipitacao: dadosMeteorologicos.precipitacao,
           umidade: dadosMeteorologicos.umidade,
           velocidadeVento: dadosMeteorologicos.velocidadeVento,
