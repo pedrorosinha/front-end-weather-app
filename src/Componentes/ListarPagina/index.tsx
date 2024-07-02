@@ -7,10 +7,9 @@ import GlobalStyles from '../EstiloGlobal';
 import InputBusca from '../InputBusca';
 import Titulo from '../Titulo';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import EditarFormulario from '../PaginaEditar';
 import { ColumnType, ExpandableConfig } from 'antd/es/table/interface';
 
-const StyledTable = styled(Table)`
+const StyledTableContainer = styled.div`
   .ant-table {
     font-family: 'TT-Supermolot-Regular';
     margin-left: 120px;
@@ -45,7 +44,7 @@ enum Turno {
 
 interface DadosMeteorologicos {
   id: number;
-  data: string;
+  data: Date;
   cidade: string;
   temperaturaMinima: number;
   temperaturaMaxima: number;
@@ -56,13 +55,14 @@ interface DadosMeteorologicos {
   velocidadeVento: number;
 }
 
-const ListarPagina: React.FC = () => {
+interface ListarPaginaProps {}
+
+const ListarPagina: React.FC<ListarPaginaProps> = () => {
   const [dadosMeteorologicos, setDadosMeteorologicos] = useState<DadosMeteorologicos[]>([]);
   const [cidadeSelecionada, setCidadeSelecionada] = useState<string>('');
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState<boolean>(false);
   const [recordToDelete, setRecordToDelete] = useState<DadosMeteorologicos | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [editRecord, setEditRecord] = useState<DadosMeteorologicos | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,16 +113,15 @@ const ListarPagina: React.FC = () => {
         {turno}
       </Tag>
     );
-  };  
+  };
 
   const handleEdit = (record: DadosMeteorologicos) => {
-    setEditRecord(record);
-    setIsModalVisible(true);
+    navigate(`/editar/${record.id}`, { state: { record } });
   };
 
   const showDeleteModal = (record: DadosMeteorologicos) => {
     setRecordToDelete(record);
-    setIsModalVisible(true);
+    setIsDeleteModalVisible(true);
   };
 
   const handleDelete = async () => {
@@ -135,15 +134,14 @@ const ListarPagina: React.FC = () => {
     } catch (error) {
       message.error('Erro ao excluir registro');
     } finally {
-      setIsModalVisible(false);
+      setIsDeleteModalVisible(false);
       setRecordToDelete(null);
     }
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    setIsDeleteModalVisible(false);
     setRecordToDelete(null);
-    setEditRecord(null);
   };
 
   const columns: ColumnType<DadosMeteorologicos>[] = [
@@ -214,38 +212,41 @@ const ListarPagina: React.FC = () => {
       <GlobalStyles />
       <Titulo texto="Lista de Dados Meteorológicos" marginLeft="124px" />
       <InputBusca marginLeft="124px" marginTop="40px" onSearch={handleSearch} />
-      <StyledTable
-        dataSource={dadosMeteorologicos}
-        columns={columns}
-        rowKey="id"
-        pagination={{
-          pageSize: 10,
-          total: dadosMeteorologicos.length,
-          pageSizeOptions: ['10', '20', '30', '40', '50'],
-          current: currentPage,
-          onChange: handlePageChange,
-          showQuickJumper: true,
-          showSizeChanger: true,
-          position: ['bottomCenter'],
-        }}
-        expandable={expandable}
-        locale={{
-          emptyText: (
-            <span style={{ fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000' }}>
-              Não há dados cadastrados
-            </span>
-          ),
-        }}
-        scroll={{ x: 'max-content' }}
-      />
+      <StyledTableContainer>
+        <Table
+          dataSource={dadosMeteorologicos}
+          columns={columns}
+          rowKey="id"
+          pagination={{
+            pageSize: 10,
+            total: dadosMeteorologicos.length,
+            pageSizeOptions: ['10', '20', '30', '40', '50'],
+            current: currentPage,
+            onChange: handlePageChange,
+            showQuickJumper: true,
+            showSizeChanger: true,
+            position: ['bottomCenter'],
+          }}
+          expandable={expandable}
+          locale={{
+            emptyText: (
+              <span style={{ fontFamily: 'TT-Supermolot-Regular', fontWeight: '400', fontSize: '18px', color: '#000000' }}>
+                Não há dados cadastrados
+              </span>
+            ),
+          }}
+          scroll={{ x: 'max-content' }}
+        />
+      </StyledTableContainer>
       <Modal
-        title="Editar Dados Meteorológicos"
-        visible={isModalVisible}
+        title="Confirmar Exclusão"
+        visible={isDeleteModalVisible}
+        onOk={handleDelete}
         onCancel={handleCancel}
-        footer={null}
-        destroyOnClose
+        okText="Excluir"
+        cancelText="Cancelar"
       >
-        {editRecord && <EditarFormulario record={editRecord} />}
+        <p>Tem certeza que deseja excluir este registro?</p>
       </Modal>
     </>
   );

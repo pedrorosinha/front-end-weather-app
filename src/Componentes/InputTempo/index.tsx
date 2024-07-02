@@ -67,12 +67,13 @@ const CustomOption = styled(Option)`
 interface InputTempoProps {
   value: Clima | null;
   onInputChange: (value: Clima | null) => void;
+  style?: React.CSSProperties;
 }
 
 const InputTempo: React.FC<InputTempoProps> = ({ value, onInputChange }) => {
   const [clima, setClima] = useState<Clima | null>(value);
 
-  const handleSelectChange = (value: Clima) => {
+  const handleSelectChange = (value: Clima | null) => {
     setClima(value);
     onInputChange(value);
   };
@@ -84,7 +85,7 @@ const InputTempo: React.FC<InputTempoProps> = ({ value, onInputChange }) => {
       <StyledSelect
         defaultValue="Selecione"
         placeholder="Selecione"
-        onChange={(value) => handleSelectChange(value as Clima)}
+        onChange={(value) => handleSelectChange(value as Clima | null)}
         value={clima || undefined}
         data-testid="input-clima"
       >

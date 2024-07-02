@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { DatePicker } from "antd";
 import locale from "antd/es/date-picker/locale/pt_BR";
 import { PickerProps } from "antd/es/date-picker/generatePicker";
+import dayjs from "dayjs";
 
 const Container = styled.div`
   display: grid;
@@ -43,17 +44,17 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 interface InputDataProps {
-  value?: Date;
-  onInputChange?: (value: Date) => void;
+  value?: Date | null;
+  onInputChange?: (value: Date | null) => void;
 }
 
-const InputData: React.FC<InputDataProps> = ({ onInputChange }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+const InputData: React.FC<InputDataProps> = ({ value, onInputChange }) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
 
   const handleDateChange: PickerProps<any>['onChange'] = (date, dateString) => {
-    setSelectedDate(date ? date.toDate() : null);
+    setSelectedDate(date);
     if (onInputChange) {
-      onInputChange(date ? date.toDate() : null);
+      onInputChange(date);
     }
   };
 
@@ -70,6 +71,7 @@ const InputData: React.FC<InputDataProps> = ({ onInputChange }) => {
         format="DD/MM/YYYY"
         locale={locale}
         onChange={handleDateChange}
+        value={selectedDate ? dayjs(selectedDate) : null}
         data-testid="input-data"
       />
       {!validateField() && <div style={{ color: 'red', marginTop: '8px' }}>Informe a data.</div>}

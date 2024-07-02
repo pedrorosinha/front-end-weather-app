@@ -5,15 +5,33 @@ import axios from 'axios';
 import GlobalStyles from '../EstiloGlobal';
 import Breadcrumb from '../BreadCrumb';
 import InputBusca from '../InputBusca';
-import InputTemperatura from '../InputTemperatura';
-import InputTempo from '../InputTempo';
+import InputDadosMetereologicos from '../InputDadosMetereologicos';
 import InputTags from '../InputTags';
 import InputData from '../InputData';
-import InputDadosMetereologicos from '../InputDadosMetereologicos';
+import InputTempo from '../InputTempo';
 import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
 import ModalErro from '../CenarioErro';
-import Titulo from '../Titulo';
+import InputTemperatura from '../InputTemperatura';
+import dayjs from 'dayjs';
+
+enum Clima {
+  CHUVOSO = 'CHUVOSO',
+  ENSOLARADO = 'ENSOLARADO',
+  GAROANDO = 'GAROANDO',
+  NEVANDO = 'NEVANDO',
+  NUBLADO = 'NUBLADO',
+}
+
+enum Turno {
+  MANHA = 'MANHA',
+  TARDE = 'TARDE',
+  NOITE = 'NOITE',
+}
+
+interface MainFormProps {
+  API_URL: string;
+}
 
 const PageContainer = styled.div`
   display: flex;
@@ -29,29 +47,29 @@ const CustomCol = styled(Col)`
   }
 `;
 
-export interface MainFormProps {
-  API_URL: string;
-}
-
 const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
-  const [temperatura, setTemperatura] = useState<{ min: string | null; max: string | null }>({ min: null, max: null });
-  const [showModalSucesso, setModalSucesso] = useState(false);
-  const [showModalErro, setModalErro] = useState(false);
-  const [selectedTurno, setSelectedTurno] = useState<string | null>(null);
+  const [temperatura, setTemperatura] = useState<{ min: number | null; max: number | null }>({ min: null, max: null });
+  const [showModalSucesso, setModalSucesso] = useState<boolean>(false);
+  const [showModalErro, setModalErro] = useState<boolean>(false);
+  const [selectedTurno, setSelectedTurno] = useState<Turno | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedClima, setSelectedClima] = useState<string | null>(null);
+  const [selectedClima, setSelectedClima] = useState<Clima | null>(null);
   const [selectedBusca, setSelectedBusca] = useState<string | null>(null);
-  const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{ precipitacao: string | null; umidade: string | null; velocidadeVento: string | null }>({
+  const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{
+    precipitacao: number | null;
+    umidade: number | null;
+    velocidadeVento: number | null;
+  }>({
     precipitacao: null,
     umidade: null,
     velocidadeVento: null,
   });
 
-  const handleTemperaturaChange = (value: { min: string | null; max: string | null }) => {
+  const handleTemperaturaChange = (value: { min: number | null; max: number | null }) => {
     setTemperatura(value);
   };
 
-  const handleTurnoChange = (turno: string) => {
+  const handleTurnoChange = (turno: Turno) => {
     setSelectedTurno(turno);
   };
 
@@ -59,7 +77,7 @@ const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
     setSelectedDate(date);
   };
 
-  const handleClimaChange = (clima: string) => {
+  const handleClimaChange = (clima: Clima | null) => {
     setSelectedClima(clima);
   };
 
@@ -67,14 +85,14 @@ const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
     setSelectedBusca(busca);
   };
 
-  const handleDadosMeteorologicosChange = (data: { precipitacao: string | null; umidade: string | null; velocidadeVento: string | null }) => {
-    setDadosMeteorologicos((prevState) => ({
-      ...prevState,
-      ...data,
-    }));
+  const handleDadosMeteorologicosChange = (dados: { precipitacao?: number | null; umidade?: number | null; velocidadeVento?: number | null }) => {
+    setDadosMeteorologicos({
+      ...dadosMeteorologicos,
+      ...dados,
+    });
   };
 
-  const validateFields = (): boolean => {
+  const validateFields = () => {
     return (
       temperatura.min !== null &&
       temperatura.max !== null &&
@@ -91,16 +109,17 @@ const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
   const handleSalvar = async () => {
     if (validateFields()) {
       try {
+        const formattedDate = selectedDate ? dayjs(selectedDate).format('DD/MM/YYYY') : null;
         const dados = {
-          cidade: selectedBusca,
-          turno: selectedTurno,
-          clima: selectedClima,
-          temperaturaMinima: temperatura.min,
-          temperaturaMaxima: temperatura.max,
-          precipitacao: dadosMeteorologicos.precipitacao,
-          umidade: dadosMeteorologicos.umidade,
-          velocidadeVento: dadosMeteorologicos.velocidadeVento,
-          data: selectedDate,
+          cidade: selectedBusca!,
+          turno: selectedTurno!,
+          clima: selectedClima!,
+          temperaturaMinima: temperatura.min!,
+          temperaturaMaxima: temperatura.max!,
+          precipitacao: dadosMeteorologicos.precipitacao!,
+          umidade: dadosMeteorologicos.umidade!,
+          velocidadeVento: dadosMeteorologicos.velocidadeVento!,
+          data: formattedDate,
         };
 
         const response = await axios.post(`${API_URL}/tempo/previsao/`, dados, {
@@ -123,34 +142,66 @@ const MainForm: React.FC<MainFormProps> = ({ API_URL }) => {
     <PageContainer>
       <GlobalStyles />
       <Breadcrumb />
-      <Titulo />
       <Row
         gutter={[16, 16]}
-        style={{ marginTop: '32px', rowGap: '16px', maxWidth: '95%', marginLeft: '121px', marginRight: 'auto', justifyContent: 'center' }}
+        style={{
+          marginTop: '32px',
+          rowGap: '16px',
+          maxWidth: '95%',
+          marginLeft: '121px',
+          marginRight: 'auto',
+          justifyContent: 'center',
+        }}
       >
         <CustomCol xs={24} md={12} lg={12}>
-          <InputBusca onInputChange={handleBuscaChange} style={{ marginTop: '40px', textAlign: 'center' }} />
+          <InputBusca
+            onInputChange={handleBuscaChange}
+            value={selectedBusca || ''}
+            style={{ marginTop: '40px', textAlign: 'center' }}
+          />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputData onInputChange={handleDateChange} />
+          <InputData
+            onInputChange={handleDateChange}
+            value={selectedDate}
+          />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputTemperatura onInputChange={handleTemperaturaChange} style={{ marginTop: '79px', textAlign: 'center' }} />
+          <InputTemperatura
+            onInputChange={handleTemperaturaChange}
+            value={temperatura}
+            style={{ marginTop: '79px', textAlign: 'center' }}
+          />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputTags onInputChange={handleTurnoChange} />
+          <InputTags
+            onInputChange={handleTurnoChange}
+            value={selectedTurno}
+          />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputTempo onInputChange={handleClimaChange} style={{ marginTop: '86px', textAlign: 'center' }} />
+          <InputTempo
+            onInputChange={handleClimaChange}
+            value={selectedClima}
+            style={{ marginTop: '86px', textAlign: 'center' }}
+          />
         </CustomCol>
+        
         <CustomCol xs={24} md={12} lg={12}>
-          <InputDadosMetereologicos onInputChange={handleDadosMeteorologicosChange} />
+          <InputDadosMetereologicos
+            onInputChange={handleDadosMeteorologicosChange}
+            value={dadosMeteorologicos}
+          />
         </CustomCol>
         <Col span={20} style={{ margin: '0 auto', textAlign: 'center' }}>
           <Botoes onSave={handleSalvar} onCancel={() => console.log('Cancelar')} />
         </Col>
       </Row>
-      <CenarioSucesso isOpen={showModalSucesso} onClose={() => setModalSucesso(false)} validateFields={validateFields} />
+      <CenarioSucesso
+        isOpen={showModalSucesso}
+        onClose={() => setModalSucesso(false)}
+        validateFields={validateFields}
+      />
       <ModalErro isOpen={showModalErro} onClose={() => setModalErro(false)} />
     </PageContainer>
   );

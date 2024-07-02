@@ -5,14 +5,14 @@ import axios from 'axios';
 import GlobalStyles from '../EstiloGlobal';
 import Breadcrumb from '../BreadCrumb';
 import InputBusca from '../InputBusca';
-import InputTemperatura from '../InputTemperatura';
-import InputTempo from '../InputTempo';
+import InputDadosMeteorologicos from '../InputDadosMetereologicos'; 
 import InputTags from '../InputTags';
 import InputData from '../InputData';
-import InputDadosMetereologicos from '../InputDadosMetereologicos';
+import InputTempo from '../InputTempo';
 import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
 import ModalErro from '../CenarioErro';
+import InputTemperatura from '../InputTemperatura';
 
 enum Clima {
   CHUVOSO = 'CHUVOSO',
@@ -67,13 +67,13 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
   const [showModalSucesso, setModalSucesso] = useState<boolean>(false);
   const [showModalErro, setModalErro] = useState<boolean>(false);
   const [selectedTurno, setSelectedTurno] = useState<Turno>(record.turno);
-  const [selectedDate, setSelectedDate] = useState<Date>(record.data);
-  const [selectedClima, setSelectedClima] = useState<Clima>(record.clima);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(record.data);
+  const [selectedClima, setSelectedClima] = useState<Clima | null>(record.clima);
   const [selectedBusca, setSelectedBusca] = useState<string>(record.cidade);
   const [dadosMeteorologicos, setDadosMeteorologicos] = useState<{
-    precipitacao: number;
-    umidade: number;
-    velocidadeVento: number;
+    precipitacao: number | null;
+    umidade: number | null;
+    velocidadeVento: number | null;
   }>({
     precipitacao: record.precipitacao,
     umidade: record.umidade,
@@ -88,11 +88,11 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
     setSelectedTurno(turno);
   };
 
-  const handleDateChange = (date: Date) => {
+  const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
 
-  const handleClimaChange = (clima: Clima) => {
+  const handleClimaChange = (clima: Clima | null) => {
     setSelectedClima(clima);
   };
 
@@ -100,10 +100,10 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
     setSelectedBusca(busca);
   };
 
-  const handleDadosMeteorologicosChange = (data: { precipitacao?: number; umidade?: number; velocidadeVento?: number }) => {
+  const handleDadosMeteorologicosChange = (dados: { precipitacao?: number | null; umidade?: number | null; velocidadeVento?: number | null }) => {
     setDadosMeteorologicos({
       ...dadosMeteorologicos,
-      ...data,
+      ...dados,
     });
   };
 
@@ -198,7 +198,7 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
           />
         </CustomCol>
         <CustomCol xs={24} md={12} lg={12}>
-          <InputDadosMetereologicos
+          <InputDadosMeteorologicos
             onInputChange={handleDadosMeteorologicosChange}
             value={dadosMeteorologicos}
           />
