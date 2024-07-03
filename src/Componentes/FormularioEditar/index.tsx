@@ -13,6 +13,7 @@ import Botoes from '../Botoes';
 import CenarioSucesso from '../CenarioSucesso';
 import ModalErro from '../CenarioErro';
 import InputTemperatura from '../InputTemperatura';
+import dayjs from 'dayjs'
 
 enum Clima {
   CHUVOSO = 'CHUVOSO',
@@ -124,6 +125,7 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
   const handleSalvar = async () => {
     if (validateFields()) {
       try {
+        const formattedDate = selectedDate ? dayjs(selectedDate).format('DD/MM/YYYY') : null;
         const dados = {
           cidade: selectedBusca,
           turno: selectedTurno,
@@ -133,7 +135,7 @@ const EditarFormulario: React.FC<Props> = ({ record }) => {
           precipitacao: dadosMeteorologicos.precipitacao,
           umidade: dadosMeteorologicos.umidade,
           velocidadeVento: dadosMeteorologicos.velocidadeVento,
-          data: selectedDate,
+          data: formattedDate,
         };
 
         const response = await axios.put(`${API_URL}/tempo/previsao/${record.id}`, dados, {
